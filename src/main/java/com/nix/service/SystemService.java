@@ -1,4 +1,4 @@
-package com.nix.service.impl;
+package com.nix.service;
 
 import com.nix.common.EncriptionKit;
 import com.nix.common.cache.MemberCache;
@@ -10,8 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- * @author Kiss
- * @date 2018/05/02 10:50
+ * @author keray
+ * @date 2019/04/03 17:29
  */
 @Service
 public class SystemService {

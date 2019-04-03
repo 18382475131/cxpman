@@ -1,23 +1,42 @@
 package com.nix.model;
 
-import com.nix.model.base.BaseModel;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import java.io.Serializable;
 
 /**
  * @author Kiss
  * @date 2018/05/01 19:02
  * 接口
  */
-public class RoleInterfaceModel extends BaseModel<RoleInterfaceModel> {
+@Entity
+public class RoleInterfaceModel implements Serializable {
+
+    @Id
+    private Integer id;
    //描述
     private String description;
     //是否开启
     private Boolean enabled;
     //分组
+    @Column(name = "_group")
     private String group;
     //url
     private String url;
     //名称
+
+    @Column(name = "_name")
     private String name;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getDescription() {
         return description;

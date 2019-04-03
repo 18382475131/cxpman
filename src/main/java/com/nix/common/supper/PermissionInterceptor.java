@@ -10,7 +10,7 @@ import com.nix.common.annotation.MemberController;
 import com.nix.common.cache.MemberCache;
 import com.nix.model.MemberBaseModel;
 import com.nix.model.RoleBaseModel;
-import com.nix.service.impl.MemberService;
+import com.nix.service.MemberService;
 import com.nix.model.RoleInterfaceModel;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.GetMapping;

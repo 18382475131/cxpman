@@ -1,10 +1,10 @@
 package com.nix.common;
 
 
-import com.nix.model.base.BaseModel;
-import com.nix.service.BaseService;
+import com.nix.service.base.BaseService;
 import com.nix.util.SQLUtil;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -12,7 +12,7 @@ import java.util.List;
  * @date 2018/05/02 1:02
  * 分页插件
  */
-public class Pageable<M extends BaseModel<M>> {
+public class Pageable<M extends Object> {
     private Integer page;
     private Integer limit;
     private String order;
@@ -21,7 +21,7 @@ public class Pageable<M extends BaseModel<M>> {
     private String value;
     private String tables;
     private String conditionsSql;
-    private BaseService<M> baseService;
+    private BaseService baseService;
     private List list;
     public Integer getPage() {
         return page;
@@ -90,7 +90,7 @@ public class Pageable<M extends BaseModel<M>> {
         this.tables = tables;
     }
 
-    public List<M> getList(BaseService<M> service) {
+    public List<M> getList(BaseService service) {
         baseService = service;
         list = service.list(tables,page,limit,order,sort,conditionsSql);
         return list;

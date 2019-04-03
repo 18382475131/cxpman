@@ -1,31 +1,32 @@
 package com.nix.service.impl;
 
-import com.nix.dao.RoleInterfaceMapper;
-import com.nix.dao.RoleMapper;
+import com.nix.jpa.RoleJpa;
 import com.nix.model.RoleBaseModel;
 import com.nix.model.RoleInterfaceModel;
-import com.nix.service.BaseService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.nix.service.RoleService;
+import com.nix.service.base.BaseServiceImpl;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author Kiss
- * @date 2018/05/01 22:56
- * 角色service
+ * @author keray
+ * @date 2019/04/03 17:50
  */
 @Service
-public class RoleService extends BaseService<RoleBaseModel> {
-    @Autowired
-    private RoleMapper roleMapper;
-    private RoleInterfaceMapper roleInterfaceMapper;
+public class RoleServiceImpl extends BaseServiceImpl<RoleBaseModel,Integer> implements RoleService {
+
+    @Resource
+    private RoleJpa roleJpa;
 
     public RoleBaseModel findByName(String name) {
         try {
-            return roleMapper.findByOneField("name",name).get(0);
+//            return roleMapper.findByOneField("name",name).get(0);
+            return null;
         }catch (Exception e) {
             return null;
         }
@@ -36,7 +37,7 @@ public class RoleService extends BaseService<RoleBaseModel> {
     public RoleBaseModel add(RoleBaseModel model) throws Exception{
         super.add(model);
         for (RoleInterfaceModel roleInterfaceModel:model.getRoleInterfaces()) {
-            roleMapper.insertRoleMiddleInterface(model.getId(),roleInterfaceModel.getId());
+//            roleMapper.insertRoleMiddleInterface(model.getId(),roleInterfaceModel.getId());
         }
         return model;
     }
@@ -61,10 +62,10 @@ public class RoleService extends BaseService<RoleBaseModel> {
         List<RoleInterfaceModel> before = findById(model.getId()).getRoleInterfaces();
         List<RoleInterfaceModel> now = model.getRoleInterfaces();
         for (RoleInterfaceModel deleteModel:before) {
-            roleMapper.deleteRoleMiddleInterface(model.getId(),deleteModel.getId());
+//            roleMapper.deleteRoleMiddleInterface(model.getId(),deleteModel.getId());
         }
         for (RoleInterfaceModel deleteModel:now) {
-            roleMapper.insertRoleMiddleInterface(model.getId(),deleteModel.getId());
+//            roleMapper.insertRoleMiddleInterface(model.getId(),deleteModel.getId());
         }
         return super.update(model);
     }
@@ -80,5 +81,10 @@ public class RoleService extends BaseService<RoleBaseModel> {
             roleModel.setRoleInterfaces(roleInterfaceModels);
         }
         return roleModel;
+    }
+
+    @Override
+    protected JpaRepository<RoleBaseModel,Integer> jpa() {
+        return roleJpa;
     }
 }

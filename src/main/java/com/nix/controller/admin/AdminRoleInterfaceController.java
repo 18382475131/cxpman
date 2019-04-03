@@ -4,7 +4,7 @@ import com.nix.common.Pageable;
 import com.nix.common.ReturnObject;
 import com.nix.common.annotation.AdminController;
 import com.nix.model.RoleInterfaceModel;
-import com.nix.service.impl.RoleInterfaceService;
+import com.nix.service.RoleInterfaceService;
 import com.nix.util.ReturnUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

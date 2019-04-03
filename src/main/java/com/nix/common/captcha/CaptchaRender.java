@@ -12,9 +12,9 @@ import com.nix.common.captcha.sevice.ConfigurableCaptchaService;
 import com.nix.common.captcha.text.renderer.BestFitTextRenderer;
 import com.nix.common.captcha.text.renderer.TextRenderer;
 import com.nix.common.captcha.word.RandomWordFactory;
-import com.nix.service.impl.SystemService;
+import com.nix.service.SystemService;
 import com.nix.common.EncriptionKit;
-import com.nix.service.impl.SystemService;
+import com.nix.service.SystemService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 

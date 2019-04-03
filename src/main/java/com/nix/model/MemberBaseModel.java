@@ -1,16 +1,24 @@
 package com.nix.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.nix.model.base.BaseModel;
-import com.nix.service.impl.MemberService;
 
+import javax.persistence.*;
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 /**
  * @author 11723
  * 用户
  */
-public class MemberBaseModel extends BaseModel<MemberBaseModel> {
+
+
+@Entity
+@Table(indexes = {@Index(name = "username_index",columnList = "username",unique = true)})
+public class MemberBaseModel implements Serializable {
+
+    @Id
+    private Integer id;
+    @Column(length = 50)
     private String username;
     private String password;
     private Integer age;
@@ -24,7 +32,16 @@ public class MemberBaseModel extends BaseModel<MemberBaseModel> {
     private String img;
 
     //用户角色
+    @Transient
     private RoleBaseModel role;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getPhone() {
         return phone;
@@ -95,10 +112,6 @@ public class MemberBaseModel extends BaseModel<MemberBaseModel> {
 
     public Boolean getSex() {
         return sex;
-    }
-
-    public boolean isSuperAdmin() {
-        return MemberService.ADMIN_USERNAME.equals(username);
     }
 
     @Override

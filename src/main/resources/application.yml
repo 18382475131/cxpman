@@ -26,9 +26,3 @@ logging:
   file: ./log.log
   level:
       com.dragon.study.spring.boot: DEBUG
-mybatis:
-  #mybatis xml配置路径
-  mapper-locations: classpath:com/nix/mapping/*.xml
-  type-aliases-package: com.nix.model
-  configuration:
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
