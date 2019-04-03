@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html>
+    <head>
+      <meta charset="UTF-8">
+      <!-- 引入vue.js和elementUI框架 -->
+      <!-- 第三方引用 -->
+      <!-- 引入样式 -->
+      <link rel="stylesheet" href="https://unpkg.com/element-ui@2.6.1/lib/theme-chalk/index.css">
+      <script src="https://cdn.bootcss.com/vue/2.5.21/vue.min.js"></script>
+      <script src="https://cdn.bootcss.com/vue-resource/1.5.1/vue-resource.min.js"></script>
+      <script src="https://cdn.bootcss.com/element-ui/2.6.1/index.js"></script>  
+      <script src="../js/jquery-1.10.2.min.js"></script>  
+<style type="text/css">
+   .reg{
+    border: 1px solid rgb(57, 5, 155);
+    margin: 10px auto;
+    width: 500px;
+    height: auto;
+    
+   }
+   .border{
+        border:1px solid #7fbde8;
+	}
+
+    .help_1{
+            background:rgb(235, 241, 239);
+            width:1250px;
+            height:100px;
+            margin-left:auto;
+            margin-right:auto;
+      }
+            
+ </style>
+    </head>
+    <title>修改个人信息</title>
+    <body>
+            <div id="app" style="padding: 0 30px;"></div>
+    </body>
+    <script type="text/javascript">
+    var htmls = `
+    <div class="help_1">
+         <div>
+                    <div style="margin-left:100px;float:left"><image src="../image/logo.jpg" style="height:100px" circle></image></div>
+                    <div style="line-height:100px"><a style="font-weight:bold;color:rgba(65, 110, 235, 0.993);font-size:35px">统一预约挂号服务平台</a></div>
+            </div>
+    <el-row>
+         <el-col :span="24" >
+		<div style="height:26px;padding:3px;background:#62a8dd;color:#fff;font-size:18px;text-align:center;" class="border">
+			<span>修改个人信息</span>
+		</div>
+	</el-col>
+    </el-row>
+    <el-row>
+	<el-col :span="24">
+                   <div class="reg">
+                
+                        <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+                                <el-form-item label="用户姓名" prop="Name">
+                                        <el-input v-model="ruleForm.Name" size="mini" placeholder="请输入真实姓名" clearable autocomplete="on" style="width:300px"></el-input>
+                                </el-form-item>
+                                <el-form-item label="用户性别" prop="SEX">
+					 <el-radio-group v-model="ruleForm.Sex" size="small">
+					 <el-radio label="1" border>男</el-radio>
+					 <el-radio label="0" border>女</el-radio>
+					 </el-radio-group>
+				 </el-form-item>
+                                 <el-form-item label="证件类型" prop="Card">
+                                 <template>
+                                       <el-select v-model="ruleForm.Card" placeholder="请选择证件类型" clearable>
+                                          <el-option
+                                            v-for="item in options2"
+                                            :key="item.value"
+                                            :label="item.label"
+                                            :value="item.value"
+                                            :disabled="item.disabled">
+                                          </el-option>
+                                       </el-select>
+                                </template>
+                                </el-form-item>
+                                <el-form-item label="出生日期" prop="Birth">
+					<el-date-picker type="date"  value-format="yyyy-MM-dd" placeholder="请选择日期" v-model="ruleForm.Birth" size="small"  :picker-options="pickerOptions1" clearable></el-date-picker>
+				</el-form-item>
+                                <el-form-item label="手机号码" prop="Phone">
+                                        <el-input v-model="ruleForm.Phone" size="mini" placeholder="请输入手机号码" clearable autocomplete="on" style="width:300px"></el-input>
+                                </el-form-item>
+                                <el-form-item label="身份证号" prop="IDNO">
+							    <el-input v-model="ruleForm.IDNO" placeholder="请输入身份证号码" clearable size="small" style="width:300px" ></el-input>
+							  </el-form-item>
+                                <el-form-item label="用户密码" prop="Pass">
+                                        <el-input v-model="ruleForm.Pass" size="mini" placeholder="请输入密码" clearable autocomplete="on" show-password style="width:300px"></el-input>
+                                </el-form-item>
+                                <el-form-item label="确认密码" prop="CheckPass">
+                                        <el-input v-model="ruleForm.CheckPass" size="mini" placeholder="请确认入密码" clearable autocomplete="on" show-password style="width:300px"></el-input>
+                                </el-form-item> 
+                                <el-form-item>
+				   <el-col :span="4">
+					<el-button style="width:100%;" type="info"  @click="resetForm('ruleForm')" size="mini">重置</el-button>
+				  </el-col>
+				  <el-col :span="3">&nbsp;</el-col>
+          <el-col :span="4">
+					<el-button style="width:100%;"  type="info" @click="window.location.href='home.html'" size="mini">返回首页</el-button>
+				  </el-col>
+          <el-col :span="3">&nbsp;</el-col>
+				  <el-col :span="4">
+					<el-button style="width:100%;" type="primary"  @click="submitForm('ruleForm')" size="mini">提交</el-button>
+				   </el-col>
+				 </el-form-item>
+                        </el-form>
+                   </div>
+         </el-col>
+     </el-row>
+    `;
+    document.getElementById("app").innerHTML=document.getElementById("app").innerHTML+htmls;
+    var app = new Vue({
+        el:'#app',
+        data(){  
+          //姓名验证
+          //仅支持输入英文或者中文
+      var validateName = (rule, value, callback) => {
+        if (value) {
+         //console.log("1");
+         var reg = /^[\u4e00-\u9fa5]+$|^[a-zA-Z]+$/;  
+         
+          if(!reg.test(value))
+          {
+            callback(new Error('请输入真实姓名'));
+
+          }
+          
+        } 
+      };
+          var validatephone = (rule, value, callback) => {
+        if (value) {
+         //console.log("1");
+         //手机号验证
+          if(!(/^1[34578]\d{9}$/.test(value)))
+          {
+            callback(new Error('请输入有效手机号'));
+
+          }
+          
+        } 
+      };
+      //身份证验证
+      var validateIDNO = (rule, value, callback) => {
+        if (value) {
+         //console.log("1");
+         var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;  
+          if(!reg.test(value))
+          {
+            callback(new Error('请输入有效身份证号'));
+     
+          }
+          else
+          {
+            //alert(value.length);
+            //分割年月日
+            if(value.length == 15){  
+                birthday = "19"+value.substr(6,6);  
+            } else if(value.length == 18){  
+                birthday = value.substr(6,8);  
+            }  
+          //拼接年月日
+            birthday = birthday.replace(/(.{4})(.{2})/,"$1-$2-");  
+            //alert(this.ruleForm.Birth);
+            if(birthday!==this.ruleForm.Birth)
+            {
+              callback(new Error('请核对出生日期'));
+            }
+          }
+          
+        } 
+      };
+                var validatePass = (rule, value, callback) => {
+                  if (value === '') {
+          callback(new Error('请输入密码'));
+        } else {
+          if (this.ruleForm.checkPass !== '') {
+            this.$refs.ruleForm.validateField('checkPass');
+          }
+          callback();
+        }
+      };
+             var validatePass2 = (rule, value, callback) => {
+              if (value === '') {
+          callback(new Error('请再次输入密码'));
+        } else if (value !== app.ruleForm.Pass) {
+          //alert(app.ruleForm.Pass);
+         // alert(value);
+          callback(new Error('两次输入密码不一致!'));
+        } else {
+          callback();
+        }
+      };
+        return{
+          //限制日期选择在今天或者今天以前
+          pickerOptions1: {
+          disabledDate(time) {
+            return time.getTime() > Date.now();
+          }},   
+        ruleForm:{
+                Name:'',
+                Sex:'1',
+                Card:'',
+                Birth:'',
+                Phone:'',
+                Pass:'',
+                CheckPass:'',
+                IDNO:'',},
+        options2: [{
+          value: '选项1',
+          label: '身份证'},
+                {
+          value: '选项2',
+          label: '军官证',
+          disabled: true,
+        }, {
+          value: '选项3',
+          label: '护照',
+          disabled: true,
+        }, {
+          value: '选项4',
+          label: '港澳通行证',
+          disabled: true,
+        }, {
+          value: '选项5',
+          label: '台胞证',
+          disabled: true,
+        }],
+         rules:{
+              Name:[{ required: true, message: '姓名不能为空', trigger: 'blur'},
+                    {validator: validateName, trigger: 'blur' }   ],
+              Sex:[{ required: true, message: '请选择性别', trigger: 'blur'}],
+              Card:[{ required: true, message: '请选择证件类型', trigger: 'blur'}],
+              Birth:[{ required: true, message: '请选择出生日期', trigger: 'blur'}],
+              Phone:[{ required: true, message: '手机号不能为空', trigger: 'blur'},
+                      { validator: validatephone, trigger: 'blur' },
+                      { type: 'number', message: '手机号必须为数字值'}],
+              Pass:[{ validator: validatePass, trigger: 'blur'}],
+              CheckPass:[{ validator: validatePass2, trigger: 'blur'}],
+              IDNO:[{ required: true, message: '请填写身份证号', trigger: 'blur'},
+                    {validator: validateIDNO, trigger: 'blur' }],  
+        },
+        }
+        },
+        methods:{
+                resetForm(formName) { this.$refs[formName].resetFields(); },
+                submitForm(formName) {
+                            this.$refs[formName].validate((valid) => {
+                               if (valid) {
+                                        alert('submit!');
+                                             } else {
+                                        console.log('error submit!!');
+                                            return false;
+                                             }
+                                          });
+                                    },
+        },
+
+        created: function(){
+
+        },
+    });
+    </script>
+</html>

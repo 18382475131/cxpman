@@ -1,0 +1,193 @@
+<html>
+    <title>帮助中心</title>
+    <head>
+   <!-- 防止乱码 -->
+   <meta charset="UTF-8">
+   <!-- 引入vue.js和elementUI样式和组件 -->
+   <!-- 第三方引用 -->
+   <!-- 引入样式 以及组件-->
+   <link rel="stylesheet" href="https://unpkg.com/element-ui@2.6.1/lib/theme-chalk/index.css">
+   <script src="https://cdn.bootcss.com/vue/2.5.21/vue.min.js"></script>
+   <script src="https://cdn.bootcss.com/vue-resource/1.5.1/vue-resource.min.js"></script>
+   <script src="https://cdn.bootcss.com/element-ui/2.6.1/index.js"></script>
+   <script src="../js/jquery-1.10.2.min.js"></script>
+   <style type="text/css">
+      .help_1{
+            background:rgb(235, 241, 239);
+            width:1250px;
+            height:100px;
+            margin-left:auto;
+            margin-right:auto;
+      }
+      .help_2{
+        background:rgb(122, 228, 247);
+        width:1250px;
+        margin-left:auto;
+        margin-right:auto;
+        height:40px;
+        text-align:center;
+        line-height:40px;
+      }
+
+      .help_3{
+        background:rgb(20, 192, 223);
+        width:1250px;
+        margin-left:auto;
+        margin-right:auto;
+        height:445px;
+        padding-top:2px
+      }
+      .help_4{
+        background:rgb(138, 135, 104);
+        height:445px;
+        width:150px;
+        margin-left:250px;
+        float:left;
+      }
+     
+      .help_6{
+        margin-left:10px;
+        margin-top:20px;
+        border-bottom:1px dashed rgb(110, 109, 109)
+      }
+      .test1{
+        background:rgb(241, 241, 245);
+        height:435px;
+        width:600px;
+        margin-left:400px;
+         display:none; 
+      }
+   </style>
+    </head>
+    <body>
+        <div id="top">
+            <div class="help_1">
+                    <div style="margin-left:100px;float:left"><image src="../image/logo.jpg" style="height:100px" circle></image></div>
+                    <div style="line-height:100px"><a style="font-weight:bold;color:rgba(65, 110, 235, 0.993);font-size:35px">统一预约挂号服务平台</a></div>
+            </div>
+            <div class="help_2">
+                <a style="font-weight:bold;color:rgba(246, 246, 248, 0.993);font-size:25px">帮助中心</a>
+            </div>
+            <div class="help_3">
+                 <div class="help_4">
+                        <div  style="border-bottom:2px dashed rgb(110, 109, 109)"><i class="el-icon-message"></i><a style="color:rgba(255, 255, 255, 0.993);"> 常见问题</a></div>
+                        <div  style="margin-top:5px;margin-left:35px"><a onclick="roleupdate('id1')" style="color:rgba(255, 255, 255, 0.993); font-size:12px" onmouseover="this.style.color='rgba(22, 48, 163, 0.993)'" onmouseout="this.style.color='rgba(255, 255, 255, 0.993)'">.常见问题</a></div>
+                        <div style="border-bottom:2px dashed rgb(110, 109, 109);margin-top:30px;"><i class="el-icon-message"></i><a style="color:rgba(255, 255, 255, 0.993);"> 账号指南</a></div>
+                        <div  style="margin-top:15px;margin-left:35px"><a onclick="roleupdate('id2')" style="color:rgba(255, 255, 255, 0.993); font-size:12px" onmouseover="this.style.color='rgba(22, 48, 163, 0.993)'" onmouseout="this.style.color='rgba(255, 255, 255, 0.993)'">.如何注册</a></div>
+                        <div  style="margin-top:15px;margin-left:35px"><a onclick="roleupdate('id3')" style="color:rgba(255, 255, 255, 0.993); font-size:12px" onmouseover="this.style.color='rgba(22, 48, 163, 0.993)'" onmouseout="this.style.color='rgba(255, 255, 255, 0.993)'">.如何登录</a></div>
+                        <div  style="margin-top:15px;margin-left:35px"><a onclick="roleupdate('id4')" style="color:rgba(255, 255, 255, 0.993); font-size:12px" onmouseover="this.style.color='rgba(22, 48, 163, 0.993)'" onmouseout="this.style.color='rgba(255, 255, 255, 0.993)'">.账号管理</a></div>
+                        <div style="border-bottom:2px dashed rgb(110, 109, 109);margin-top:30px;"><i class="el-icon-message"></i><a style="color:rgba(255, 255, 255, 0.993);"> 预约指南</a></div>
+                        <div  style="margin-top:15px;margin-left:6px;"><a onclick="roleupdate('id5')" style="color:rgba(255, 255, 255, 0.993); font-size:12px" onmouseover="this.style.color='rgba(22, 48, 163, 0.993)'" onmouseout="this.style.color='rgba(255, 255, 255, 0.993)'">.预约挂号须知总则</a></div>
+                        <div  style="margin-top:15px;margin-left:6px"><a onclick="roleupdate('id6')" style="color:rgba(255, 255, 255, 0.993); font-size:12px" onmouseover="this.style.color='rgba(22, 48, 163, 0.993)'" onmouseout="this.style.color='rgba(255, 255, 255, 0.993)'">.软件预约挂号流程</a></div>
+                        <div  style="margin-top:15px;margin-left:6px"><a onclick="roleupdate('id7')" style="color:rgba(255, 255, 255, 0.993); font-size:12px" onmouseover="this.style.color='rgba(22, 48, 163, 0.993)'" onmouseout="this.style.color='rgba(255, 255, 255, 0.993)'">.电话预约挂号流程</a></div>
+                        <div  style="margin-top:15px;margin-left:6px"><a onclick="roleupdate('id8')" onclick="roleupdate()" style="color:rgba(255, 255, 255, 0.993); font-size:12px" onmouseover="this.style.color='rgba(22, 48, 163, 0.993)'" onmouseout="this.style.color='rgba(255, 255, 255, 0.993)'">.如何查询/取消预约</a></div>
+                        <div style="border-bottom:2px dashed rgb(110, 109, 109);margin-top:15px;"><i class="el-icon-message"></i><a style="color:rgba(255, 255, 255, 0.993);"> 账号申诉</a></div>
+                        <div  style="margin-top:12px;margin-left:35px"><a onclick="roleupdate('id9')" style="color:rgba(255, 255, 255, 0.993); font-size:12px" onmouseover="this.style.color='rgba(22, 48, 163, 0.993)'" onmouseout="this.style.color='rgba(255, 255, 255, 0.993)'">.账号申诉</a></div>
+                </div>
+                <div  id="id1" style="padding-left:10px;padding-top:10px;display:block" class="test1">
+                        <div class="help_6">1、同一平台有几种预约方式</div>
+                                <div class="help_6"><a>2、我是第一次使用这个平台预约，是否能够不注册就使用预约挂号?</a></div>
+                                        <div class="help_6">3、要患者的姓名和身份证件有什么用？</div>
+                                                <div class="help_6">4、注册时填写手机号码有什么用？</div>
+                                                        <div class="help_6">5、没有统一平台支持的有效证件如何注册预约？</div>
+                                                                <div class="help_6">6、无身份证号，或者已经申报户口但还未办理身份证的患儿如何注册预约？</div>
+                                                                        <div class="help_6">7、患者注册信息填写有误，是否会影响就诊？</div>
+                                                                                <div class="help_6">8、预约成功，发现注册信息有误，我能修改么？</div>
+                                                                                        <div class="help_6">9、应该提前多少天预约？</div>
+                                                                                                <div class="help_6">9、预约挂号统一平台什么时候放号，24小时开放么？</div>
+                </div>
+                <div style="padding-left:10px;padding-top:10px" id="id2" class="test1">
+                        <div class="help_6">1、网站预约挂号如何注册？</div>
+                        <div class="help_6"><a>2、注册预约挂号统一平台有几种方式？</a></div>
+                                <div class="help_6">3、为什么需要提交实名信息？</div>
+                                        <div class="help_6">4、一个手机号可以注册几个用户？</div>
+                                                <div class="help_6">5、没有手机号的用户如何注册？</div>
+                                                        <div class="help_6">6、收不到短信注册码怎么办？</div>
+                                                                <div class="help_6">7、我的身份证件信息已被注册占用了怎么办？</div>
+                                                                        <div class="help_6">8、网站注册用户拨打114电话预约还需要再次注册吗？</div>
+                                                                                <div class="help_6">9、注册失败报错及原因分析？</div>
+                                                                                        <div class="help_6">10、北京市预约挂号统一平台注册规则？</div>
+                </div>
+                <div style="padding-left:10px;padding-top:10px" id="id3" class="test1">
+                        <div class="help_6">1、网站预约挂号如何登录？。</div>
+                        <div class="help_6"><a>2、我是第一次使用这个平台预约，是否能够不注册就使用预约挂号?</a></div>
+                                <div class="help_6">3、要患者的姓名和身份证件有什么用？</div>
+                                        <div class="help_6">4、注册时填写手机号码有什么用？</div>
+                                                <div class="help_6">5、没有统一平台支持的有效证件如何注册预约？</div>
+                                                        <div class="help_6">6、无身份证号，或者已经申报户口但还未办理身份证的患儿如何注册预约？</div>
+                                                                <div class="help_6">7、患者注册信息填写有误，是否会影响就诊？</div>
+                                                                        <div class="help_6">8、预约成功，发现注册信息有误，我能修改么？</div>
+                                                                                <div class="help_6">9、应该提前多少天预约？</div>
+                                                                                        <div class="help_6">9、预约挂号统一平台什么时候放号，24小时开放么？</div>
+                </div>
+                <div style="padding-left:10px;padding-top:10px" id="id4" class="test1">
+                        <div class="help_6">1、用户注册信息提交后是否还可以修改?</div>
+                        <div class="help_6"><a>2、用户资料发生变更如何修改?</a></div>
+                                <div class="help_6">3、名字不小心输错了，怎么办？</div>
+                                        <div class="help_6">4、身份证件号不小心输错了，怎么办？</div>
+                                                <div class="help_6">5、如果原注册的手机号换号了或者停机了，怎么办？</div>
+                                                        <div class="help_6">6、账号为什么会被冻结？如何申诉</div>
+                                                                <div class="help_6">7、患者注册信息填写有误，是否会影响就诊？</div>
+                                                                        <div class="help_6">8、预约成功，发现注册信息有误，我能修改么？</div>
+                                                                                <div class="help_6">9、应该提前多少天预约？</div>
+                                                                                        <div class="help_6">9、预约挂号统一平台什么时候放号，24小时开放么？</div>
+                </div>
+                <div style="padding-left:10px;padding-top:10px" id="id5" class="test1">
+                        <div class="help_6">一、预约范围</div>
+                        <div class="help_6"><a>二、实名制注册预约</a></div>
+                                <div class="help_6">三、账户信息管理</div>
+                                        <div class="help_6">四、预约确认与就诊</div>
+                                                <div class="help_6">五、查询、取消预约</div>
+                                                        <div class="help_6">六、预约限制</div>
+                                                                <div class="help_6">七、爽约的判定及处罚</div>
+                                                                        <div class="help_6">八、黑名单用户的判定及处罚</div>
+                                                                                <div class="help_6">九、特别声明</div>
+                                                                                        
+                </div>
+                <div style="padding-left:10px;padding-top:10px" id="id6" class="test1">
+                        <div class="help_6">第一步：注册登录：</div>
+                        <div class="help_6"><a>第二步：选择医院/科室/疾病：</a></div>
+                                <div class="help_6">第三步：选择日期/医生：</div>
+                                        <div class="help_6">第四步：填写预约信息并短信验证：</div>
+                                                <div class="help_6">第五步：接收预约成功短信：</div>
+                                                        <div class="help_6">第六步：医院就诊：</div>
+                                                                
+                </div>
+                <div style="padding-left:10px;padding-top:10px" id="id7" class="test1">
+                        <div class="help_6">一、电话注册</div>
+                        <div class="help_6"><a>二、电话预约</a></div>
+                                <div class="help_6">三、电话取消预约</div>
+                                        <div class="help_6">四、电话查询预约信息</div>
+                                                
+                </div>
+                <div style="padding-left:10px;padding-top:10px" id="id8" class="test1">
+                        <div class="help_6">1、开发中</div>
+                        <div class="help_6"><a>1、开发中?</a></div>
+                                <div class="help_6">1、开发中</div>
+                                        <div class="help_6">1、开发中</div>
+                                                <div class="help_6">1、开发中</div>
+                                                        <div class="help_6">1、开发中</div>
+                                                                <div class="help_6">1、开发中</div>
+                                                                        <div class="help_6">1、开发中</div>
+                                                                                <div class="help_6">1、开发中</div>
+                                                                                        <div class="help_6">9、预约挂号统一平台什么时候放号，24小时开放么？</div>
+                </div>
+                <div style="padding-left:10px;padding-top:10px" id="id9" class="test1">
+                        <div class="help_6">1、您可以邮件至guahao114@sina.com平台服务邮箱备案</div>
+                        <div class="help_6"><a>2、您可以邮件至guahao114@sina.com平台服务邮箱备案</a></div>
+                                <div class="help_6">3、您可以邮件至guahao114@sina.com平台服务邮箱备案？</div>
+                                       
+                </div>  
+            </div>
+        </div>
+    </body>
+    <script type="text/javascript">
+        function roleupdate(objId){
+            ///通过修改div的display属性来确认div的显示与否
+           // alert(objId);
+            $('.test1').css('display','none');
+            $("#"+objId).css('display','block');
+            //alert("#"+objId);
+        }
+        </script>
+</html>

@@ -18,7 +18,7 @@ public class RouterController {
      * */
     @GetMapping("/")
     public String userIndex() {
-        return "/member/index.html";
+        return "/html/index.html";
     }
 
 
@@ -27,7 +27,7 @@ public class RouterController {
      * */
     @GetMapping("/member/login")
     public String userLogin() {
-        return "/member/login.html";
+        return "/html/login.html";
     }
 
     /**

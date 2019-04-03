@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+    <head>
+      <meta charset="UTF-8">
+      <!-- 引入vue.js和elementUI框架 -->
+      <!-- 第三方引用 -->
+      <!-- 引入样式 -->
+      <link rel="stylesheet" href="https://unpkg.com/element-ui@2.6.1/lib/theme-chalk/index.css">
+      <script src="https://cdn.bootcss.com/vue/2.5.21/vue.min.js"></script>
+      <script src="https://cdn.bootcss.com/vue-resource/1.5.1/vue-resource.min.js"></script>
+      <script src="https://cdn.bootcss.com/element-ui/2.6.1/index.js"></script>  
+      <script src="../js/jquery-1.10.2.min.js"></script>  
+<style type="text/css">
+ 
+
+    .help_1{
+            background:rgb(247, 245, 245);
+            width:1250px;
+            height:100px;
+            margin-left:auto;
+            margin-right:auto;
+      }
+      .help_2{
+        width:1250px;
+        height:26px;
+        background:#62a8dd;
+        color:#fff;
+        font-size:18px;
+        margin-left:auto;
+        margin-right:auto;
+       
+      }
+        
+            
+ </style>
+    </head>
+    <title>个人挂号记录</title>
+    <body>
+       <div id="top">
+            <div class="help_1">
+                    <div style="margin-left:100px;float:left"><image src="../image/logo.jpg" style="height:100px" circle></image></div>
+                    <div style="line-height:100px"><a style="font-family:楷体;font-weight:bold;color:rgba(65, 110, 235, 0.993);font-size:35px">统一预约挂号服务平台</a></div>
+             </div>
+             <div  class="help_2">
+                    <div style=" width:110px;margin-left:auto; margin-right:auto;"><span style="font-family:楷体">个人挂号记录</span></div>
+            </div>
+            <div style="width:1250px;margin-left:auto; margin-right:auto;">
+                    <template>
+                            <el-table
+                               height="400px"
+                              :data="tableData"
+                              style="width: 100%"
+                              size="mini"
+                              cell-style="font-weight: 300;font-size:12;font-family:楷体"
+                              header-cell-style="font-weight: 600;font-size:14;font-family:楷体">
+                              <el-table-column
+                                prop="hos"
+                                label="医院"
+                                width="180">
+                              </el-table-column>
+                              <el-table-column
+                                prop="room"
+                                label="科室"
+                                width="180">
+                              </el-table-column>
+                              <el-table-column
+                                prop="接诊医生"
+                                label="doctor">
+                              </el-table-column>
+                              <el-table-column
+                                prop="日期"
+                                label="date">
+                              </el-table-column>
+                              <el-table-column
+                                prop="time"
+                                label="时间">
+                              </el-table-column>
+                             
+
+                            </el-table>
+                          </template>
+            </div>
+            <div style="margin-top:10px;color:rgb(64, 44, 238);width:70px;margin-left:auto; margin-right:auto;font-family:楷体"><el-tag  @click="push()" size="mini">返回首页</el-ag></div>
+       </div>
+    </body>
+    <script type="text/javascript">
+       
+    var app = new Vue({
+        el:'#top',
+        data(){  
+     
+               
+            
+        return{
+            tableData: [
+           ]
+        }
+        },
+        methods:{
+          push()
+          {
+            window.location.href='home.html';
+          }
+        },
+
+        created: function(){
+
+        },
+    });
+    </script>
+</html>

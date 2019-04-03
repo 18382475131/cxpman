@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+<!-- 登录窗居中显示 -->
+    <style type="text/css">
+    	.log{
+            
+            padding: 10px 10px;
+            width: 300px;
+            height: 200px;
+            margin: 120px auto;
+            text-align: center;
+            border: 1px solid rgb(57, 5, 155);
+        }
+   </style>  
+</head>
+<body>
+        
+<div id="app" style="padding: 0 30px;">  	
+</div>
+</body>
+      <!-- 引入vue.js和elementUI框架 -->
+      <!-- 第三方引用 -->
+        <link rel="stylesheet" href="https://unpkg.com/element-ui@1.4/lib/theme-default/index.css">
+        <script src="https://cdn.bootcss.com/vue/2.5.21/vue.min.js"></script>
+        <script src="https://cdn.bootcss.com/vue-resource/1.5.1/vue-resource.min.js"></script>
+        <script src="https://cdn.bootcss.com/element-ui/2.4.11/index.js"></script>      
+<script type="text/javascript">
+    ///autocomplete="off"input·是否记录之前输入的值
+	var htmls = `
+		 <div class="log">
+            <el-form :model="userForm" ref="userForm" label-width="70px" class="demo-ruleForm" autocomplete="on" :rules="rules">
+                <el-form-item label="账号" prop="name">
+                    <el-input v-model="userForm.name" size="mini"></el-input>
+                </el-form-item>
+                <el-form-item label="密码" prop="pass">
+                    <el-input type="password" v-model="userForm.pass" @keyup.enter.native=" "size="mini" autocomplete="off"></el-input>
+                </el-form-item>
+                <el-form-item label="确认密码" prop="checkPass">
+              <el-input type="password" v-model="userForm.checkPass" autocomplete="off" autocomplete="off" size="mini"></el-input>
+               </el-form-item>
+                <el-form-item>
+                    <el-button type="primary" @click="submitForm('userForm')" size="mini">登录</el-button>
+                    <el-button @click="resetForm('userForm')" size="mini">重置</el-button>
+                </el-form-item>
+            </el-form>
+        </div>
+		`;
+
+	docu
+	document.getElementById("app").innerHTML=document.getElementById("app").innerHTML+htmls;
+    
+    var app = new Vue({
+        el: '#app',
+        data() {
+            ///账号验证
+            var validatename = (rule, value, callback) => {
+        if (value === '') {
+          callback(new Error('请输入账号'));
+        } else {
+           // this.userForm.Pass=value;
+           ///此处的 this.userForm.Pass=value;无法获取表单控件的值
+            //alert( this.userForm.Pass);
+           // alert(app.userForm.pass);
+          if (app.userForm.pass !== '') {
+              ///alert(app.$refs.userForm.validateField('Pass'));
+            this.$refs.userForm.validateField('checkPass');
+          }
+          callback();
+        }
+      };
+///密码输入规则
+var validatePass = (rule, value, callback) => {
+        if (value === '') {
+          callback(new Error('请输入密码'));
+        } else {
+           // this.userForm.Pass=value;
+           ///此处的 this.userForm.Pass=value;无法获取表单控件的值
+            //alert( this.userForm.Pass);
+           // alert(app.userForm.pass);
+          if (app.userForm.pass !== '') {
+              ///alert(app.$refs.userForm.validateField('Pass'));
+            this.$refs.userForm.validateField('checkPass');
+          }
+          callback();
+        }
+      };
+      ///确认密码规则
+      var validatePass2 = (rule, value, callback) => {
+          //console.log(value,app.userForm.pass);
+        if (value === '') {
+           // alert(value);
+           // this.userForm.Pass=value;
+           ///此处的 this.userForm.Pass=value;无法获取表单控件的值
+            //alert( this.userForm.Pass);
+            //alert(app.userForm.pass);
+          callback(new Error('请再次输入密码'));
+        } else if (value !== app.userForm.pass) {
+          callback(new Error('两次输入密码不一致!'));
+        } else {
+          callback();
+        }
+      };
+
+            return {
+                userForm:{
+                name:'',
+                pass:'',
+                checkPass:'',
+            },
+            rules: {
+                name:[
+                    {validator: validatename, trigger: 'blur'}
+                ],
+          pass: [
+            { validator: validatePass, trigger: 'blur' }
+          ],
+          checkPass: [
+            { validator: validatePass2, trigger: 'blur' }
+          ],}
+            }
+            
+        },
+        methods:{
+            ///表单提交
+            submitForm(formName) {
+
+                this.$refs[formName].validate((valid) => {
+                    if (valid) {
+                       alert('submit!');
+                         } 
+                  else {
+                    console.log('error submit!!');
+                    return false;
+          }
+                });
+            },
+            ///重置表单
+            resetForm(formName) {
+        this.$refs[formName].resetFields();
+      }
+
+        },
+        created: function(){
+
+        },
+
+        
+
+    });
+
+</script>
+</html>

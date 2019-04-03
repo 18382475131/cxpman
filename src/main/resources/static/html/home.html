@@ -1,0 +1,683 @@
+<html>
+    <title>预约挂号平台
+    </title>
+    <head>
+        <!-- 防止乱码 -->
+        <meta charset="UTF-8">
+        <!-- 引入vue.js和elementUI样式和组件 -->
+      <!-- 第三方引用 -->
+      <!-- 引入样式 以及组件-->
+      <link rel="stylesheet" href="https://unpkg.com/element-ui@2.6.1/lib/theme-chalk/index.css">
+      <script src="https://cdn.bootcss.com/vue/2.5.21/vue.min.js"></script>
+      <script src="https://cdn.bootcss.com/vue-resource/1.5.1/vue-resource.min.js"></script>
+      <script src="https://cdn.bootcss.com/element-ui/2.6.1/index.js"></script>
+      <script src="../js/jquery-1.10.2.min.js"></script>
+   <!-- css -->
+      <link rel="stylesheet" type="text/css" href="../css/content.css">
+    </head>
+    <body>
+            <div id="top" style="cursor:pointer;">
+                    <div class="Margin">
+                         <div class="Margin_1">
+                              <div class="Margin_1_1">
+                                <table>
+                                <tr>
+                                    <td valign="middle" align='left' style="width:0.01%"><i class="el-icon-service" size="mini"></i></td>
+                                    <td valign="middle" align='left' style="width:0.01%">
+                                            <el-tag size="mini" style="width:100%;height:18px">
+                                                <!-- <marquee></<marquee> 标签滚动效果-->
+                                                <span><marquee direction='up' scrollamount="1" loop="infinite" width="100%" height="100%">
+                                                <a style=" color:#666; font-size:14px;">tel:18382475131</a></br>
+                                                <a style=" color:#666; font-size:14px;">tel:18382471765</a></br>
+                                                <a style=" color:#666; font-size:14px;">tel:18382475131</a>
+                                                </marquee>
+                                                </span>
+                                            </el-tag></td>
+                                    <td valign="middle" align='left' style="width:0.12%;color:rgb(115, 116, 117); font-size:12px;">电话预约</td>
+                                    <td valign="middle" align='right'  style="width:1%; color:rgb(115, 116, 117);">
+                                        欢迎来到预约挂号系统
+                                        <el-dropdown @command="handleCommand">
+                                                <span class="el-dropdown-link">
+                                                  帮助中心<i class="el-icon-arrow-down el-icon--right"></i>
+                                                </span>
+                                                <el-dropdown-menu slot="dropdown">
+                                                  <el-dropdown-item command="command_a">注册指南</el-dropdown-item>
+                                                  <el-dropdown-item command="command_b">预约指南</el-dropdown-item>
+                                                  <el-dropdown-item command="command_c">账号申述</el-dropdown-item>
+                                                  <el-dropdown-item command="command_d">个人信息</el-dropdown-item>
+                                                  <el-dropdown-item command="command_e">挂号记录</el-dropdown-item>
+                                                </el-dropdown-menu>
+                                              </el-dropdown>
+                                    </td>
+                                </tr>
+                                </table>
+                              </div>
+                         </div>
+
+                    </div>
+                    <div class="body">
+                        <div class="body_1">
+                            <!-- 加载本地logo -->
+                            <table border="0" cellpadding="0" cellspacing="0">
+                                <tr>
+                                    <td style="width:0.01%"><image src="../image/logo.jpg" style="height:70px" circle></image></td>
+                                    <td align='left' style="width:1%"><sapn style="color:rgb(91, 101, 194); font-size:20px;font-weight:bold;">统一预约挂号服务平台</sapn></td>
+                                    <td align='right' style="width:1%">
+
+                                                <el-input placeholder="请输入内容" v-model="input5" class="input-with-select" size="mini" style="width:60%" @keyup.enter.native="onSubmit()">
+                                                        <el-select v-model="select" slot="prepend" placeholder="选择" size="mini"style="width:70px">
+                                                        <el-option label="科室" value="1"></el-option>
+                                                        <el-option label="医院" value="2" disabled></el-option>
+                                                        <el-option label="疾病" value="3" disabled></el-option>
+                                                        </el-select>
+                                                        <el-button slot="append" icon="el-icon-search" size="mini" @click="openVn()"></el-button>
+                                                </el-input>
+                                    </td>
+                                </tr>
+                            </table>
+
+
+                        </div>
+                    </div>
+                    <div class="body_2">
+                        <div class="body_3">
+                             <div class="body_3_1">
+                             <table width="100%">
+                                 <tr>
+                                     <td align='left' valign="middle" style="overflow:hidden;width:6%">  <sapn style="overflow:hidden;color:rgb(250, 250, 250); font-size:14px;font-weight:bold;">全部科室</sapn></td>
+                                     <td align='center' valign="middle" style="overflow:hidden;width:6%"><sapn style="overflow:hidden;color:rgb(250, 250, 250); font-size:14px;font-weight:bold;" onclick="click_1(2)" onmouseover="this.style.color='rgb(230, 230, 230)'" onmouseout="this.style.color='rgb(250, 250, 250)'">按医院挂号</span></td>
+                                     <td align='center' valign="middle" style="overflow:hidden;width:6%"><sapn style="overflow:hidden;color:rgb(250, 250, 250); font-size:14px;font-weight:bold;" onclick="click_1(3)" onmouseover="this.style.color='rgb(230, 230, 230)'" onmouseout="this.style.color='rgb(250, 250, 250)'">按科室挂号</span></td>
+                                     <td align='center' valign="middle" style="overflow:hidden;width:6%"><sapn style="overflow:hidden;color:rgb(250, 250, 250); font-size:14px;font-weight:bold;" onclick="click_1(4)" onmouseover="this.style.color='rgb(230, 230, 230)'" onmouseout="this.style.color='rgb(250, 250, 250)'">按疾病挂号</sapn></td>
+                                     <td align='right' valign="middle" style="overflow:hidden;width:6%"> <sapn style="overflow:hidden;color:rgb(250, 250, 250); font-size:14px;font-weight:bold;" onclick="click_1(5)" onmouseover="this.style.color='rgb(230, 230, 230)'" onmouseout="this.style.color='rgb(250, 250, 250)'">最新公告</span></td>
+                                </tr>
+                             </table>
+                             </div>
+                        </div>
+                    </div>
+                    <!-- 主体框架 -->
+                    <div class="main">
+                      <div  class="main_1">
+                            <el-popover
+                            placement="right-start"
+                            title="内科"
+                            width="40%"
+                            trigger="hover"
+                            visible-arrow="false"
+                            >
+                            <div style="cursor:pointer;width:500px;height:300px">
+                                <div><el-tag size="mini" style="margin-top:10px">心血管内科</el-tag>
+                                <el-tag type="success" size="mini">神经内科</el-tag>
+                                <el-tag type="info" size="mini">消化内科</el-tag>
+                                <el-tag type="warning" size="mini">内分泌科</el-tag>
+                                <el-tag type="danger" size="mini">免疫科</el-tag>
+                                <el-tag size="mini">呼吸科</el-tag>
+                                <el-tag type="success" size="mini">肾病内科</el-tag>
+                                <el-tag type="info" size="mini">血液科</el-tag>
+                                <el-tag type="warning" size="mini" style="margin-top:10px">感染内科</el-tag>
+                                <el-tag type="danger" size="mini">过敏反应科</el-tag>
+                                <el-tag size="mini">老年病科</el-tag>
+                                <el-tag type="success" size="mini">普通内科</el-tag>
+                               
+                                <el-tag size="mini">血液透析科</el-tag>
+                                <el-tag type="success" size="mini" style="margin-top:10px">变态反应科</el-tag></div>
+                              
+                                
+                                <div><el-tag  style="margin-top:40px">内科常见疾病</el-tag>
+                                <el-tag type="success" size="mini">冠心病</el-tag>
+                                <el-tag type="info" size="mini">高血压</el-tag>
+                                <el-tag type="warning" size="mini"> 心律失常</el-tag>
+                                <el-tag type="danger" size="mini">房颤</el-tag>
+                                <el-tag size="mini">阵发性室上性心动过速</el-tag>
+                                <el-tag type="success" size="mini">心衰</el-tag>
+                                <el-tag type="info" size="mini">心肌炎</el-tag>
+                                <el-tag type="warning" size="mini" style="margin-top:10px"> 房间隔缺损</el-tag>
+                                <el-tag type="danger" size="mini">先天性心脏病</el-tag>
+                                <el-tag size="mini">心肌病</el-tag>
+                                <el-tag type="success" size="mini">风湿性心脏病</el-tag>
+                                <el-tag type="info" size="mini">心肌梗死</el-tag>
+                                <el-tag type="warning" size="mini">心绞痛</el-tag>
+                                <el-tag type="danger" size="mini">急性感染性心内膜炎</el-tag>
+                                
+                                <el-tag type="success" size="mini" style="margin-top:10px">心肌缺血</el-tag>
+                                <el-tag type="info" size="mini">脑梗塞</el-tag></div>
+                            
+                            </div>
+                            <span onmouseover="this.style.color='rgb(20, 20, 20)';this.style.background='rgb(250, 250, 250)'" onmouseout="this.style.color='rgb(250, 250, 250)';this.style.background='rgb(100, 180, 240)'" slot="reference" style="cursor:pointer;overflow:hidden;display:block;width:100%;height:30px;line-height:30px;color:rgb(248, 249, 252);background-color:rgb(100, 180, 240);"><strong style="font-size:14px;">&nbsp内科</strong><a style="font-size:10px;">&nbsp&nbsp胃炎&nbsp高血压&nbsp冠心病</a></span>
+                          </el-popover>
+                          <el-popover
+                            placement="right-start"
+                            title="外科"
+                            width="30%"
+                            trigger="hover"
+                            visible-arrow="false"
+                            c>
+                            <div style="cursor:pointer;width:500px;height:300px">
+                                <div><el-tag size="mini" style="margin-top:10px">神经外科</el-tag>
+                                <el-tag type="success" size="mini">功能神经外科</el-tag>
+                                <el-tag type="info" size="mini">心血管外科</el-tag>
+                                <el-tag type="warning" size="mini">胸外科</el-tag>
+                                <el-tag type="danger" size="mini">整形科</el-tag>
+                                <el-tag size="mini">乳腺外科</el-tag>
+                                <el-tag type="success" size="mini">泌尿外科</el-tag>
+                                <el-tag type="info" size="mini">肝胆外科</el-tag>
+                                <el-tag type="warning" size="mini" style="margin-top:10px">肛肠科</el-tag>
+                                <el-tag type="danger" size="mini">血管外科</el-tag>
+                                <el-tag size="mini">器官移植</el-tag>
+                                <el-tag type="success" size="mini">微创外科</el-tag>
+                                <el-tag type="info" size="mini">普外科</el-tag>
+                                <el-tag type="warning" size="mini">男性学科</el-tag>
+                                <el-tag type="danger" size="mini">皮肤美容科</el-tag>
+                                <el-tag size="mini">碎石科</el-tag>
+                                <el-tag size="mini">烧伤科</el-tag>
+                                <el-tag type="success" size="mini" style="margin-top:10px">脑外科</el-tag></div>
+                              
+                                
+                                <div><el-tag  style="margin-top:40px">外科常见疾病</el-tag>
+                                <el-tag type="success" size="mini">脑膜瘤</el-tag>
+                                <el-tag type="info" size="mini"> 脑肿瘤</el-tag>
+                                <el-tag type="warning" size="mini"> 胶质瘤</el-tag>
+                                <el-tag type="danger" size="mini">脑外伤</el-tag>
+                                <el-tag size="mini">脑动脉瘤</el-tag>
+                                <el-tag type="success" size="mini">面肌痉挛</el-tag>
+                                <el-tag type="info" size="mini"> 脑血管畸形</el-tag>
+                                <el-tag type="warning" size="mini" style="margin-top:10px"> 椎管内肿瘤</el-tag>
+                                <el-tag type="danger" size="mini">三叉神经痛</el-tag>
+                                <el-tag size="mini">听神经瘤</el-tag>
+                                <el-tag type="success" size="mini">脑积水</el-tag>
+                                <el-tag type="info" size="mini">颅咽管瘤</el-tag>
+                                <el-tag type="warning" size="mini">脊髓空洞症</el-tag>
+                                <el-tag type="danger" size="mini"> 生殖细胞瘤</el-tag>
+                                <el-tag type="warning" size="mini">小儿癫痫</el-tag>
+                                <el-tag type="warning" size="mini"> 锥体外系疾病</el-tag>
+                                
+                                <el-tag type="success" size="mini" style="margin-top:10px">心肌缺血</el-tag>
+                                <el-tag type="info" size="mini">脑梗塞</el-tag></div>
+                            
+                            </div>
+                            <span onmouseover="this.style.color='rgb(20, 20, 20)';this.style.background='rgb(250, 250, 250)'" onmouseout="this.style.color='rgb(250, 250, 250)';this.style.background='rgb(100, 180, 240)'" slot="reference" style="cursor:pointer;overflow:hidden;display:block;width:100%;height:30px;line-height:30px;color:rgb(248, 249, 252);background-color:rgb(100, 180, 240);"><strong style="font-size:14px;">&nbsp外科</strong><a style="font-size:10px;">&nbsp&nbsp&nbsp肾结石&nbsp脑外伤</a></span>
+                          </el-popover>
+                          <el-popover
+                            placement="right-start"
+                            title="妇产科"
+                            width="30%"
+                            trigger="hover"
+                            visible-arrow="false"
+                           >
+                           <div style="cursor:pointer;width:500px;height:300px">
+                              <div><el-tag size="mini" style="margin-top:10px">妇科</el-tag>
+                              <el-tag type="success" size="mini">产科</el-tag>
+                              <el-tag type="info" size="mini">妇科内分泌</el-tag>
+                              <el-tag type="warning" size="mini">妇泌尿科</el-tag>
+                              <el-tag type="danger" size="mini">遗传咨询科</el-tag>
+                              <el-tag size="mini">计划生育科</el-tag>
+                              <el-tag type="success" size="mini">妇产科</el-tag>
+                              <el-tag type="info" size="mini">生殖中心</el-tag></div>
+                            
+                              
+                              <div><el-tag  style="margin-top:40px">妇产科常见疾病
+                            </el-tag>
+                              <el-tag type="success" size="mini"> 子宫肌瘤</el-tag>
+                              <el-tag type="info" size="mini">卵巢囊肿</el-tag>
+                              <el-tag type="warning" size="mini"> 不孕不育</el-tag>
+                              <el-tag type="danger" size="mini"> 宫颈炎</el-tag>
+                              <el-tag size="mini">子宫内膜异位症</el-tag>
+                              <el-tag type="success" size="mini">宫颈癌前病变</el-tag>
+                              <el-tag type="info" size="mini">阴道炎</el-tag>
+                              <el-tag type="warning" size="mini" style="margin-top:10px"> 宫颈癌</el-tag>
+                              <el-tag type="danger" size="mini"> 卵巢肿瘤</el-tag>
+                              <el-tag size="mini">多囊卵巢综合征</el-tag>
+                              <el-tag type="success" size="mini">月经失调</el-tag>
+                              <el-tag type="info" size="mini"> 宫外孕</el-tag>
+                              <el-tag type="info" size="mini" style="margin-top:10px"> 畸胎瘤</el-tag>
+                              <el-tag type="warning" size="mini">子宫腺肌症</el-tag>
+                              <el-tag type="danger" size="mini"> 子宫内膜癌</el-tag>
+                              <el-tag type="warning" size="mini"> 输卵管堵塞</el-tag>
+                              
+                            </div>
+                          
+                          </div>
+                            <span onmouseover="this.style.color='rgb(20, 20, 20)';this.style.background='rgb(250, 250, 250)'" onmouseout="this.style.color='rgb(250, 250, 250)';this.style.background='rgb(100, 180, 240)'" slot="reference" style="cursor:pointer;overflow:hidden;display:block;width:100%;height:30px;line-height:30px;color:rgb(248, 249, 252);background-color:rgb(100, 180, 240);"><strong style="font-size:14px;">&nbsp妇产科</strong><a style="font-size:10px;">&nbsp&nbsp阴道炎&nbsp不孕不育</a></span>
+                          </el-popover>
+                          <el-popover
+                            placement="right-start"
+                            title="儿科"
+                            width="30%"
+                            trigger="hover"
+                            visible-arrow="false"
+                            >
+                            <div style="cursor:pointer;width:500px;height:300px">
+                                <div><el-tag size="mini" style="margin-top:10px">儿科</el-tag>
+                                <el-tag type="success" size="mini">新生儿科</el-tag>
+                                <el-tag type="info" size="mini">小儿呼吸科</el-tag>
+                                <el-tag type="warning" size="mini">小儿营养保健科</el-tag>
+                                <el-tag type="danger" size="mini">小儿神经内科</el-tag>
+                                <el-tag size="mini">儿心内科</el-tag>
+                                <el-tag type="success" size="mini">小儿皮肤科</el-tag>
+                                <el-tag type="info" size="mini">小儿外科</el-tag>
+                                <el-tag type="warning" size="mini" style="margin-top:10px">小儿心外科</el-tag>
+                                <el-tag type="danger" size="mini">小儿骨科</el-tag>
+                                <el-tag size="mini">小儿康复科</el-tag></div>
+                              
+                                
+                                <div><el-tag  style="margin-top:40px">儿科常见疾病
+                                  </el-tag>
+                                <el-tag type="success" size="mini">小儿肺炎</el-tag>
+                                <el-tag type="info" size="mini">小儿感冒</el-tag>
+                                <el-tag type="warning" size="mini"> 小儿咳嗽</el-tag>
+                                <el-tag type="danger" size="mini">小儿哮喘</el-tag>
+                                <el-tag size="mini">小儿支气管炎</el-tag>
+                                <el-tag type="success" size="mini">小儿腹泻</el-tag>
+                                <el-tag type="info" size="mini">小儿肾病</el-tag>
+                                <el-tag type="warning" size="mini" style="margin-top:10px"> 性早熟</el-tag>
+                                <el-tag type="danger" size="mini">新生儿疾病</el-tag>
+                                <el-tag size="mini">儿童白血病</el-tag>
+                                <el-tag type="success" size="mini"> 抽动症</el-tag>
+                                <el-tag type="info" size="mini">新生儿黄疸</el-tag>
+                                <el-tag type="warning" size="mini">小儿心肌炎</el-tag>
+                                <el-tag type="danger" size="mini" style="margin-top:10px">川崎病</el-tag>
+                                <el-tag type="warning" size="mini"> 新生儿肺炎</el-tag>
+                                <el-tag type="danger" size="mini">新生儿缺氧缺血性脑病</el-tag></div>
+                            
+                            </div>
+                            <span onmouseover="this.style.color='rgb(20, 20, 20)';this.style.background='rgb(250, 250, 250)'" onmouseout="this.style.color='rgb(250, 250, 250)';this.style.background='rgb(100, 180, 240)'" slot="reference" style="cursor:pointer;overflow:hidden;display:block;width:100%;height:45px;line-height:45px;color:rgb(248, 249, 252);background-color:rgb(100, 180, 240);"><strong style="font-size:14px;">&nbsp儿科</strong><a style="font-size:10px;">&nbsp&nbsp抽动症&nbsp小儿感冒</a></span>
+                          </el-popover>
+                          <el-popover
+                            placement="right"
+                            title="骨外科"
+                            width="30%"
+                            trigger="hover"
+                            visible-arrow="false"
+                            >
+                            <div style="cursor:pointer;width:500px;height:200px">
+                                <div><el-tag size="mini" style="margin-top:10px">骨科</el-tag>
+                                <el-tag type="success" size="mini">脊柱外科</el-tag>
+                                <el-tag type="info" size="mini">手外科</el-tag>
+                                <el-tag type="warning" size="mini">创伤骨科</el-tag>
+                                <el-tag type="danger" size="mini">骨关节科</el-tag>
+                                <el-tag size="mini">矫形骨科</el-tag>
+                                <el-tag type="success" size="mini">骨质疏松科</el-tag>
+                                <el-tag type="info" size="mini">骨伤专科</el-tag></div>
+                              
+                                
+                                <div><el-tag  style="margin-top:40px">骨科常见疾病</el-tag>
+                                <el-tag type="success" size="mini">骨折</el-tag>
+                                <el-tag type="info" size="mini">腰间盘突出</el-tag>
+                                <el-tag type="warning" size="mini"> 颈椎病</el-tag>
+                                <el-tag type="danger" size="mini">膝关节损伤</el-tag>
+                                <el-tag size="mini">腰椎管狭窄</el-tag>
+                                <el-tag type="success" size="mini">股骨头坏死</el-tag>
+                                <el-tag type="info" size="mini">骨质增生</el-tag>
+                                <el-tag type="warning" size="mini" style="margin-top:10px"> 脊柱骨折</el-tag>
+                                <el-tag type="danger" size="mini">骨肿瘤</el-tag>
+                                <el-tag size="mini">腰痛</el-tag>
+                                <el-tag type="success" size="mini">关节炎</el-tag>
+                                <el-tag type="info" size="mini">手外伤</el-tag>
+                                <el-tag type="warning" size="mini">脊柱结核</el-tag>
+                                <el-tag type="danger" size="mini">骨髓炎</el-tag>
+                                
+                                <el-tag type="success" size="mini" style="margin-top:10px">关节损伤</el-tag>
+                                <el-tag type="info" size="mini" style="margin-top:10px">骨不连</el-tag></div>
+                            
+                            </div>
+                            <span onmouseover="this.style.color='rgb(20, 20, 20)';this.style.background='rgb(250, 250, 250)'" onmouseout="this.style.color='rgb(250, 250, 250)';this.style.background='rgb(100, 180, 240)'" slot="reference" style="cursor:pointer;overflow:hidden;display:block;width:100%;height:45px;line-height:45px;color:rgb(248, 249, 252);background-color:rgb(100, 180, 240);"><strong style="font-size:14px;">&nbsp骨外科</strong><a style="font-size:10px;">&nbsp&nbsp腰间盘突出&nbsp骨折</a></span>
+                          </el-popover>
+                          <el-popover
+                            placement="right"
+                            title="眼科"
+                            width="30%"
+                            trigger="hover"
+                            visible-arrow="false"
+                            >
+                            <div style="cursor:pointer;width:500px;height:300px">
+                                <div>
+                                <el-tag type="success" style="margin-top:10px" size="mini">白内障</el-tag>
+                                <el-tag type="info" size="mini">青光眼</el-tag>
+                                <el-tag type="warning" size="mini">视网膜脱落</el-tag>
+                                <el-tag type="danger" size="mini">斜视</el-tag>
+                                <el-tag size="mini">近视眼</el-tag>
+                                <el-tag type="success" size="mini">眼外伤</el-tag>
+                                <el-tag type="info" size="mini">眼底病</el-tag>
+                                <el-tag type="warning" size="mini" style="margin-top:10px">弱视</el-tag>
+                                <el-tag type="danger" size="mini">角膜炎</el-tag>
+                                <el-tag size="mini">葡萄膜炎</el-tag>
+                                <el-tag type="success" size="mini">黄斑变性</el-tag>
+                                <el-tag type="info" size="mini">视网膜病</el-tag>
+                                <el-tag type="warning" size="mini">糖尿病视网膜病变</el-tag>
+                                <el-tag type="danger" size="mini">结膜炎</el-tag>
+                                <el-tag size="mini">屈光不正</el-tag>
+                                <el-tag type="success" size="mini" style="margin-top:10px">泪道阻塞</el-tag></div>
+                              
+                                
+                                <div><el-tag  style="margin-top:40px">内科常见疾病</el-tag>
+                                <el-tag type="success" size="mini">冠心病</el-tag>
+                                <el-tag type="info" size="mini">高血压</el-tag>
+                                <el-tag type="warning" size="mini"> 心律失常</el-tag>
+                                <el-tag type="danger" size="mini">房颤</el-tag>
+                                <el-tag size="mini">阵发性室上性心动过速</el-tag>
+                                <el-tag type="success" size="mini">心衰</el-tag>
+                                <el-tag type="info" size="mini">心肌炎</el-tag>
+                                <el-tag type="warning" size="mini" style="margin-top:10px"> 房间隔缺损</el-tag>
+                                <el-tag type="danger" size="mini">先天性心脏病</el-tag>
+                                <el-tag size="mini">心肌病</el-tag>
+                                <el-tag type="success" size="mini">风湿性心脏病</el-tag>
+                                <el-tag type="info" size="mini">心肌梗死</el-tag>
+                                <el-tag type="warning" size="mini">心绞痛</el-tag>
+                                <el-tag type="danger" size="mini">急性感染性心内膜炎</el-tag>
+                                
+                                <el-tag type="success" size="mini" style="margin-top:10px">心肌缺血</el-tag>
+                                <el-tag type="info" size="mini">脑梗塞</el-tag></div>
+                            
+                            </div>
+                            <span onmouseover="this.style.color='rgb(20, 20, 20)';this.style.background='rgb(250, 250, 250)'" onmouseout="this.style.color='rgb(250, 250, 250)';this.style.background='rgb(100, 180, 240)'" slot="reference" style="cursor:pointer;overflow:hidden;display:block;width:100%;height:45px;line-height:45px;color:rgb(248, 249, 252);background-color:rgb(100, 180, 240);"><strong style="font-size:14px;">&nbsp眼科</strong><a style="font-size:10px;">&nbsp&nbsp眼底病&nbsp近视&nbsp白内障</a></span>
+                          </el-popover>
+                          <el-popover
+                            placement="right"
+                            title="口腔科"
+                            width="30%"
+                            trigger="hover"
+                            visible-arrow="false"
+                            >
+                            <div style="cursor:pointer;width:500px;height:300px">
+                                <div><el-tag size="mini" style="margin-top:10px">口腔科</el-tag>
+                                <el-tag type="success" size="mini">颌面外科</el-tag>
+                                <el-tag type="info" size="mini">正畸科</el-tag>
+                                <el-tag type="warning" size="mini">牙体牙髓科</el-tag>
+                                <el-tag type="danger" size="mini">牙周科</el-tag>
+                                <el-tag size="mini">口腔粘膜科</el-tag>
+                                <el-tag type="success" size="mini">儿童口腔科</el-tag>
+                                <el-tag type="info" size="mini">口腔修复科</el-tag>
+                                <el-tag type="warning" size="mini" style="margin-top:10px">种植科</el-tag>
+                                <el-tag type="danger" size="mini">口腔预防科</el-tag>
+                                <el-tag size="mini">口腔特诊科</el-tag>
+                                <el-tag type="success" size="mini">口腔急诊科</el-tag></div>
+                              
+                                
+                                <div><el-tag  style="margin-top:40px">口腔科常见疾病
+                                   </el-tag>
+                                <el-tag type="success" size="mini">牙颌畸形</el-tag>
+                                <el-tag type="info" size="mini">牙痛</el-tag>
+                                <el-tag type="warning" size="mini"> 口腔颌面部肿瘤</el-tag>
+                                <el-tag type="danger" size="mini">龋齿</el-tag>
+                                <el-tag size="mini">牙髓炎</el-tag>
+                                <el-tag type="success" size="mini"> 牙周炎</el-tag>
+                                <el-tag type="info" size="mini">阻生齿</el-tag>
+                                <el-tag type="warning" size="mini" style="margin-top:10px"> 口腔溃疡</el-tag>
+                                <el-tag type="danger" size="mini">牙体病</el-tag>
+                                <el-tag size="mini">拔牙</el-tag>
+                                <el-tag type="success" size="mini">口腔颌面部囊肿</el-tag>
+                                <el-tag type="info" size="mini">口腔颌面部损伤</el-tag>
+                                <el-tag type="warning" size="mini">舌癌</el-tag>
+                                <el-tag type="danger" size="mini">口腔颌面部血管瘤</el-tag>
+                                
+                                <el-tag type="success" size="mini" style="margin-top:10px">颞下颌关节病</el-tag></div>
+                            
+                            </div>
+                            <span onmouseover="this.style.color='rgb(20, 20, 20)';this.style.background='rgb(250, 250, 250)'" onmouseout="this.style.color='rgb(250, 250, 250)';this.style.background='rgb(100, 180, 240)'" slot="reference" style="cursor:pointer;overflow:hidden;display:block;width:100%;height:45px;line-height:45px;color:rgb(248, 249, 252);background-color:rgb(100, 180, 240);"><strong style="font-size:14px;">&nbsp口腔科</strong><a style="font-size:10px;">&nbsp&nbsp&nbsp牙周炎&nbsp牙痛</a></span>
+                          </el-popover>
+                          <el-popover
+                            placement="right-end"
+                            title="耳鼻咽喉头颈科"
+                            width="30%"
+                            trigger="hover"
+                            visible-arrow="false"
+                            >
+                            <div style="cursor:pointer;width:500px;height:200px">
+                                <div><el-tag size="mini" style="margin-top:10px">耳鼻喉</el-tag>
+                                <el-tag type="success" size="mini">头颈外科</el-tag>
+                                </div>
+                              
+                                
+                                <div><el-tag  style="margin-top:40px">耳鼻咽喉头颈科常见疾病
+                                 </el-tag>
+                                <el-tag type="success" size="mini">鼻窦炎</el-tag>
+                                <el-tag type="info" size="mini">鼻炎</el-tag>
+                                <el-tag type="warning" size="mini"> 鼻息肉</el-tag>
+                                <el-tag type="danger" size="mini">鼻中隔偏曲</el-tag>
+                                <el-tag size="mini">耳聋</el-tag>
+                                <el-tag type="success" size="mini">咽炎</el-tag>
+                                <el-tag type="info" size="mini">内耳眩晕</el-tag>
+                                <el-tag type="warning" size="mini" style="margin-top:10px">  胆脂瘤型中耳炎</el-tag>
+                                <el-tag type="danger" size="mini">声带息肉</el-tag>
+                                <el-tag size="mini">耳鸣</el-tag>
+                                <el-tag type="success" size="mini"> 鼓膜穿孔</el-tag>
+                                <el-tag type="info" size="mini">鼻咽癌</el-tag>
+                                <el-tag type="warning" size="mini">老年性聋</el-tag>
+                                <el-tag type="danger" size="mini"> 急性咽炎</el-tag>
+                                
+                                <el-tag type="success" size="mini" style="margin-top:10px">慢性咽炎</el-tag></div>
+                            
+                            </div>
+                            <span onmouseover="this.style.color='rgb(20, 20, 20)';this.style.background='rgb(250, 250, 250)'" onmouseout="this.style.color='rgb(250, 250, 250)';this.style.background='rgb(100, 180, 240)'" slot="reference" style="cursor:pointer;overflow:hidden;display:block;width:100%;height:45px;line-height:45px;color:rgb(248, 249, 252);background-color:rgb(100, 180, 240);"><strong style="font-size:14px;">&nbsp耳鼻咽喉头颈科</strong><a style="font-size:10px;">&nbsp&nbsp&nbsp鼻炎</a></span>
+                          </el-popover>
+                          <el-popover
+                            placement="right-end"
+                            title="肿瘤科"
+                            width="30%"
+                            trigger="hover"
+                            visible-arrow="false"
+                            >
+                            <div style="cursor:pointer;width:500px;height:200px">
+                                <div><el-tag size="mini" style="margin-top:10px">肿瘤内科</el-tag>
+                                <el-tag type="success" size="mini">肿瘤外科</el-tag>
+                                <el-tag type="info" size="mini">肿瘤妇科</el-tag>
+                                <el-tag type="warning" size="mini">放疗科</el-tag>
+                                <el-tag type="danger" size="mini">骨肿瘤科</el-tag>
+                                <el-tag size="mini">肿瘤康复科</el-tag>
+                                <el-tag type="success" size="mini">肿瘤综合科</el-tag></div>
+                              
+                                
+                                <div><el-tag  style="margin-top:40px">肿瘤科常见疾病
+                                  </el-tag>
+                                <el-tag type="success" size="mini">癌痛</el-tag>
+                                <el-tag type="info" size="mini"> 葡萄胎</el-tag>
+                                <el-tag type="warning" size="mini">  绒毛膜癌</el-tag>
+                                <el-tag type="danger" size="mini">骨肉瘤</el-tag>
+                                <el-tag size="mini">骨癌</el-tag>
+                                <el-tag type="success" size="mini">骨巨细胞瘤</el-tag>
+                                <el-tag type="info" size="mini">软骨瘤</el-tag>
+                                <el-tag type="warning" size="mini" style="margin-top:10px"> 骨瘤</el-tag>
+                                <el-tag type="danger" size="mini">骨转移癌</el-tag></div>
+                            
+                            </div>
+                            <span onmouseover="this.style.color='rgb(20, 20, 20)';this.style.background='rgb(250, 250, 250)'" onmouseout="this.style.color='rgb(250, 250, 250)';this.style.background='rgb(100, 180, 240)'" slot="reference" style="cursor:pointer;overflow:hidden;display:block;width:100%;height:45px;line-height:45px;color:rgb(248, 249, 252);background-color:rgb(100, 180, 240);"><strong style="font-size:14px;">&nbsp肿瘤科</strong><a style="font-size:10px;">&nbsp&nbsp&nbsp&nbsp癌痛</a></span>
+                          </el-popover>
+                          <el-popover
+                            placement="right-end"
+                            title="皮肤性病科"
+                            width="30%"
+                            trigger="hover"
+                            visible-arrow="false"
+                            >
+                            <div style="cursor:pointer;width:500px;height:200px">
+                                <div><el-tag size="mini" style="margin-top:10px">皮肤科</el-tag>
+                                <el-tag type="success" size="mini">性病科</el-tag></div>
+                              
+                                
+                                <div><el-tag  style="margin-top:40px">皮肤性病科常见疾病
+                                  </el-tag>
+                                <el-tag type="success" size="mini">皮肤过敏</el-tag>
+                                <el-tag type="info" size="mini">湿疹</el-tag>
+                                <el-tag type="warning" size="mini"> 银屑病</el-tag>
+                                <el-tag type="danger" size="mini">白癜风</el-tag>
+                                <el-tag size="mini">痤疮</el-tag>
+                                <el-tag type="success" size="mini">尖锐湿疣</el-tag>
+                                <el-tag type="info" size="mini"> 荨麻疹</el-tag>
+                                <el-tag type="warning" size="mini" style="margin-top:10px"> 皮炎</el-tag>
+                                <el-tag type="danger" size="mini">脱发</el-tag>
+                                <el-tag size="mini">硬皮病</el-tag>
+                                <el-tag type="success" size="mini"> 扁平疣</el-tag>
+                                <el-tag type="info" size="mini">带状疱疹</el-tag>
+                                <el-tag type="warning" size="mini">神经性皮炎</el-tag>
+                                <el-tag type="danger" size="mini">梅毒</el-tag>
+                                
+                                <el-tag type="success" size="mini" style="margin-top:10px">疣</el-tag>
+                                <el-tag type="info" size="mini">性病</el-tag></div>
+                            
+                            </div>
+                            <span onmouseover="this.style.color='rgb(20, 20, 20)';this.style.background='rgb(250, 250, 250)'" onmouseout="this.style.color='rgb(250, 250, 250)';this.style.background='rgb(100, 180, 240)'" slot="reference" style="cursor:pointer;overflow:hidden;display:block;width:100%;height:45px;line-height:45px;color:rgb(248, 249, 252);background-color:rgb(100, 180, 240);"><strong style="font-size:14px;">&nbsp皮肤性病科</strong><a style="font-size:10px;">&nbsp&nbsp&nbsp皮肤过敏</a></span>
+                          </el-popover>
+                          <el-popover
+                            placement="right-end"
+                            title="其他科室"
+                            width="30%"
+                            trigger="hover"
+                            visible-arrow="false"
+                            >
+                            <div style="cursor:pointer;width:500px;height:200px">
+                                <div></div>
+                              
+                                
+                                <div><el-tag  style="margin-top:40px">开发中</el-tag>
+                                <el-tag type="success" size="mini">冠心病</el-tag>
+                                <el-tag type="info" size="mini">高血压</el-tag>
+                                <el-tag type="warning" size="mini"> 心律失常</el-tag>
+                                <el-tag type="danger" size="mini">房颤</el-tag>
+                                <el-tag size="mini">阵发性室上性心动过速</el-tag>
+                                <el-tag type="success" size="mini">心衰</el-tag>
+                                <el-tag type="info" size="mini">心肌炎</el-tag>
+                                <el-tag type="warning" size="mini" style="margin-top:10px"> 房间隔缺损</el-tag>
+                                <el-tag type="danger" size="mini">先天性心脏病</el-tag>
+                                <el-tag size="mini">心肌病</el-tag>
+                                <el-tag type="success" size="mini">风湿性心脏病</el-tag>
+                                <el-tag type="info" size="mini">心肌梗死</el-tag>
+                                <el-tag type="warning" size="mini">心绞痛</el-tag>
+                                <el-tag type="danger" size="mini">急性感染性心内膜炎</el-tag>
+                                
+                                <el-tag type="success" size="mini" style="margin-top:10px">心肌缺血</el-tag>
+                                <el-tag type="info" size="mini">脑梗塞</el-tag></div>
+                            
+                            </div>
+                            <span onmouseover="this.style.color='rgb(20, 20, 20)';this.style.background='rgb(250, 250, 250)'" onmouseout="this.style.color='rgb(250, 250, 250)';this.style.background='rgb(100, 180, 240)'" slot="reference" style="cursor:pointer;overflow:hidden;display:block;width:100%;height:45px;line-height:45px;color:rgb(248, 249, 252);background-color:rgb(100, 180, 240);"><strong style="font-size:14px;">&nbsp其他科室</strong><a style="font-size:10px;">&nbsp&nbsp&nbsp&nbsp</a></span>
+                          </el-popover>
+                      </div>
+                      <div  class="main_2">
+                       
+                          <el-carousel :interval="2500" style="height:100%">
+                            <el-carousel-item v-for="item in card" :key="item" style="height:450px;line-height: 450px">
+                              <img :src="item.src" style="width:100%;height:100%">
+                            </el-carousel-item>
+                          </el-carousel>
+                      </div>
+                      <div class="main_3">
+                          <div class="main_3_3">
+                            <div style="text-align:center">
+                              <table style="margin:auto;">
+                                <tr><td><el-button type="success" icon="el-icon-tickets" circle size="mini"><a>快速预约</a></el-button></td></tr> 
+                              </table>
+                              <el-form :model="ruleForm">
+                                  <el-form-item label="" prop="region">
+                                      <el-select v-model="ruleForm.region" placeholder="医院地区" size="mini">
+                                         <el-option label="区域一" value="shanghai"></el-option>
+                                         <el-option label="区域二" value="beijing"></el-option>
+                                      </el-select>
+                                  </el-form-item>
+                                  <el-form-item label="" prop="region1">
+                                      <el-select v-model="ruleForm.region1" placeholder="医院等级" size="mini">
+                                         <el-option label="区域一" value="shanghai"></el-option>
+                                         <el-option label="区域二" value="beijing"></el-option>
+                                      </el-select>
+                                  </el-form-item>
+                                  <el-form-item label="" prop="region2">
+                                      <el-select v-model="ruleForm.region2" placeholder="医院名称" size="mini">
+                                         <el-option label="区域一" value="shanghai"></el-option>
+                                         <el-option label="区域二" value="beijing"></el-option>
+                                      </el-select>
+                                  </el-form-item>
+                                  <el-form-item label="" prop="region3">
+                                      <el-select v-model="ruleForm.region3" placeholder="医院科室" size="mini">
+                                         <el-option label="区域一" value="shanghai"></el-option>
+                                         <el-option label="区域二" value="beijing"></el-option>
+                                      </el-select>
+                                  </el-form-item> 
+                              </el-form>
+                              <el-button size="mini">快速查询</el-button>
+                              <div style="margin-top:45px">
+                              <el-button type="success" size="mini">帮助中心</el-button>
+                              <table style="margin:auto;">
+                                <tr><td style="height:65px"><a style="color:rgb(244, 245, 248);" href="javascript:void(0);" onclick="js_method()">账号指南</a></td><td style="height:65px"><a style="color:rgb(244, 245, 248);" href="javascript:void(0);" onclick="js_method()">预约指南</a></td></tr>
+                                <tr><td ><a style="color:rgb(244, 245, 248);" href="javascript:void(0);" onclick="js_method()">账号申诉</a></td><td><a style="color:rgb(244, 245, 248);" href="javascript:void(0);" onclick="js_method()">常见问题</a></td></tr>
+                              </table>
+                              </div>
+                            </div>
+                          </div>
+                      </div>
+                    </div>
+            </div>
+
+    </body>
+<script type="text/javascript">
+    ///获取div的高度
+    ///var A=$("#div_id").height()
+    var app = new Vue({
+        el:'#top',
+        data(){
+        return{
+          ////表单
+          ruleForm:{
+            region:'',
+            region1:'',
+            region2:'',
+            region3:'',
+          },
+          ///走马灯图片
+          card: [
+                    {key: '1', src: '../image/1.png', desc: 'xxxx'},
+                    {key: '2', src: '../image/2.jpg', desc: 'xxxx'},
+                    {key: '3', src: '../image/3.png', desc: 'xxxx'},
+                    {key: '4', src: '../image/4.png', desc: 'xxxx'},
+                    {key: '5', src: '../image/5.png', desc: 'xxxx'},
+
+                       ] ,         
+            input5: '',
+            select: '',
+        }
+        },
+        methods:{
+           
+            ///输入框enter事件
+           onSubmit()
+           {
+             //alert($(".main_1").width());
+               alert("搜索框enter事件");
+           },
+            ///输入框搜索图标点击事件
+            openVn()
+            {
+                alert("搜索框点击事件")
+            },
+            ///帮助中心点击事件
+            handleCommand(command) {
+                // this.$message('click on item ' + $("#div_id").height());
+                if(command=="command_d")
+                { window.location.href='editpersonal.html';}
+                else if(command=="command_e")
+                {     window.location.href='record.html';        }
+                else
+               window.location.href='help.html';
+                           }
+         },
+        created: function(){},
+        });
+          ///蓝色框内容点击事件
+          ///未定义在vue的methods里面是应为无法读取，提示方法未定义
+          function click_1(value)
+            {
+                
+                alert(value);
+            }
+          function js_method()
+          {window.location.href='help.html';}
+        //     ///鼠标移入时执行函数
+        //   function over(value)
+        //   {
+        //     alert(value);
+        //   }
+        // ///鼠标移出时执行函数
+        //   function out(value)
+        //   {
+        //       alert(value)
+        //   }
+        
+</script>
+
+</html>

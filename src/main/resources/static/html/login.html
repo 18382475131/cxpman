@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+  <title>登录</title>
+<head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no">
+        <!-- query.js -->
+        <script src="../js/jquery-1.11.3.js"></script>
+        
+       
+<!-- 登录窗居中显示 -->
+    <style type="text/css">
+    	.log{
+            
+            padding: 10px 10px;
+            width: 300px;
+            height: 250px;
+            margin: 120px auto;
+            text-align: center;
+            border: 1px solid rgb(57, 5, 155);
+        }
+        #verify {
+            height: 34px;
+            vertical-align: top;
+            font-size: 16px;
+        }
+
+        #code_img {
+            width: 100px;
+            height: 35px;
+            cursor: pointer;
+            vertical-align: top;
+        }
+   </style>  
+</head>
+<body>
+        
+<div id="app" style="padding: 0 30px;">  	
+</div>
+</body>
+      <!-- 引入vue.js和elementUI框架 -->
+      <!-- 第三方引用 -->
+      <!-- 引入样式 -->
+      <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+        <script src="https://cdn.bootcss.com/vue/2.5.21/vue.min.js"></script>
+        <script src="https://cdn.bootcss.com/vue-resource/1.5.1/vue-resource.min.js"></script>
+        <script src="https://cdn.bootcss.com/element-ui/2.6.1/index.js"></script>      
+<script type="text/javascript">
+     ///@keyup.enter.native 回车事件
+    ///autocomplete="off"input·是否记录之前输入的值
+    ///input 的required表示必填项
+    ///style="width:100px;"可控制组件尺寸
+    ///type="number"限制只能输入数字
+	var htmls = `
+  <el-row>
+         <el-col :span="24" >
+		<div style="height:26px;padding:3px;background:#62a8dd;color:#fff;font-size:18px;text-align:center;" class="border">
+			<span>用户登录</span>
+		</div>
+	</el-col>
+    </el-row>
+		 <div class="log">
+            <el-form :model="userForm" ref="userForm" label-width="60px" class="demo-ruleForm"  :rules="rules">
+                <el-form-item label="账号" prop="name">
+                    <el-input v-model="userForm.name" size="mini" placeholder="请输入手机号码" @input.native="" onkeyup="this.value=this.value.replace(/\D/g, '')" clearable autocomplete="on"  maxlength="11" change=""></el-input>
+                </el-form-item>
+                <el-form-item label="密码" prop="pass">
+                    <el-input type="password" v-model="userForm.pass" @keyup.enter.native=" " size="mini" placeholder="请输入密码"  autocomplete="off" show-password clearable></el-input>
+                </el-form-item>
+                <el-form-item label="验证码" prop="Code">
+       
+        <td><el-input v-model="userForm.Code" type="text" class="topAlign" id="verify" name="verify" placeholder="输入验证码"  style="width:130px" clearable></el-input>
+        
+        <canvas width="100" height="40" id="verifyCanvas"></canvas>
+        <img id="code_img">
+        
+        
+   
+                </el-form-item>
+                <el-form-item>
+                    
+                    <el-button type="primary" @click="submitForm('userForm')" size="mini">登录</el-button>
+                    <el-button @click="resetForm('userForm')" size="mini">重置</el-button>
+                    <el-button type="text" @click="window.location.href='registration.html'">用户注册</el-button>
+                </el-form-item>
+            </el-form>
+        </div>
+		`;
+
+	
+	document.getElementById("app").innerHTML=document.getElementById("app").innerHTML+htmls;
+   ///手机号正则表达式/^1([38][0-9]|4[579]|5[0-3,5-9]|6[6]|7[0135678]|9[89])\d{8}$/
+   var phone=/^1([38][0-9]|4[579]|5[0-3,5-9]|6[6]|7[0135678]|9[89])\d{8}$/;
+  var array = new Array();
+    var nums = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0", 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R',
+        'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x',
+        'y', 'z'];
+        drawCode();
+        var a=array[0]+array[1]+array[2]+array[3]+array[4];
+        a=a.toLowerCase();
+       /// console.log(a);
+    var app = new Vue({
+        el: '#app',
+        data() {
+            ///账号验证
+       var validatename = (rule, value, callback) => {
+        if (value === '') {
+          callback(new Error('请输入账号'));
+        } else {
+          if(!phone.test(value))
+          {
+            callback(new Error('请输入正确的手机号码'));
+
+          }
+           // this.userForm.Pass=value;
+           ///此处的 this.userForm.Pass=value;无法获取表单控件的值
+            //alert( this.userForm.Pass);
+           // alert(app.userForm.pass);
+         else if (app.userForm.pass !== '') {
+              ///alert(app.$refs.userForm.validateField('Pass'));
+            //this.$refs.userForm.validateField('checkPass');
+          }
+          callback();
+        }
+      };
+///密码输入规则
+var validatePass = (rule, value, callback) => {
+        if (value === '') {
+          
+          callback(new Error('请输入密码'));
+        } else {
+           // this.userForm.Pass=value;
+           ///此处的 this.userForm.Pass=value;无法获取表单控件的值
+            //alert( this.userForm.Pass);
+           //alert(app.userForm.pass);
+          if (app.userForm.pass !== '') {
+              ///alert(app.$refs.userForm.validateField('Pass'));
+            //app.$refs.userForm.validateField('checkPass');
+          }
+          callback();
+        }
+      };
+      ///VerificationCode验证码验证
+      var VerificationCode = (rule, value, callback) => {
+        if (value === '') {
+          
+          callback(new Error('请输入右侧验证码'));
+        } else {
+           // this.userForm.Pass=value;
+           ///此处的 this.userForm.Pass=value;无法获取表单控件的值
+            //alert( this.userForm.Pass);
+           // alert(app.userForm.pass);
+           var a=array[0]+array[1]+array[2]+array[3]+array[4];
+            a=a.toLowerCase();
+            var tCode=app.userForm.Code;
+          if (tCode.toLowerCase()!== a) {
+            alert(tCode);
+            alert(a);
+;              callback("验证码错误");
+          }
+          callback();
+        }
+      };
+      return {
+               
+                userForm:{
+                name:'',
+                pass:'',
+                Code:'',
+                
+            },
+            rules: {
+                name:[
+                    {validator: validatename, trigger: 'blur'}
+                ],
+          pass: [
+            { validator: validatePass, trigger: 'blur' }
+          ],
+         
+          Code: [
+            { validator: VerificationCode, trigger: 'blur' }],
+          }
+            }
+            
+        },
+    methods:{
+          ///点击用户注册转入页面
+          
+            ///表单提交
+            submitForm(formName) {
+              
+                this.$refs[formName].validate((valid) => {
+                    if (valid) {
+                     a=array[0]+array[1]+array[2]+array[3]+array[4];
+                     a=a.toLowerCase();
+                      ///获取验证码组件的值
+                     //alert(this.userForm.Code);
+                     
+                     //alert('submit!');
+                     
+    $.ajax({
+        url:`/user/info?name=${this.userForm.name}&pass=${this.userForm.pass}`,
+        method:'GET',
+        success:(data) => {
+          //后台传过来的是字符串，需要将字符串转换成对象
+          data = JSON.parse(data);
+          console.log(data);
+          if(data.login === true) {
+            this.$message({
+             
+          message: '登录成功',
+          type: 'success'
+        });
+        console.log(data);
+            setTimeout(() =>{
+              //登录成功后执行的代码
+                          },1000);
+            
+          } else {
+            console.log(data);
+            if(data.name) {
+              this.$message({
+          message: '密码错误',
+          type: 'warning'
+        });
+            } else{
+              this.$message({
+          message: '账号不存在',
+          type: 'warning'
+        });
+            }
+          }
+        },
+        error:(e) => {
+          console.log(e);
+        }
+      })
+      //alert("我爱你");
+                         } 
+                  else {
+                    
+                    alert("错误提交");
+                    return false;
+          }
+                });
+            },
+            ///重置表单
+            resetForm(formName) {
+        this.$refs[formName].resetFields();
+      }
+
+        },
+        created: function(){
+
+        },
+
+        
+
+    });
+   
+    // 绘制验证码
+    function drawCode() {
+        var canvas = document.getElementById("verifyCanvas");  //获取HTML端画布
+        var context = canvas.getContext("2d");                 //获取画布2D上下文
+        context.fillStyle = "cornflowerblue";                  //画布填充色
+        context.fillRect(0, 0, canvas.width, canvas.height);   //清空画布
+        context.fillStyle = "white";                           //设置字体颜色
+        context.font = "25px Arial";                           //设置字体
+        var rand = new Array();
+        var x = new Array();
+        var y = new Array();
+        ///Math.floor()返回小于等于x的最大整数;
+        for (var i = 0; i < 5; i++) {
+            rand[i] = nums[Math.floor(Math.random() * nums.length)];
+            array[i]=rand[i];
+            x[i] = i * 16 + 10;
+            y[i] = Math.random() * 20 + 20;
+            ///x,y代表开始绘制文本的 x、y 坐标位置（相对于画布）。
+            context.fillText(rand[i], x[i], y[i]);
+        }
+        //画3条随机线
+        for (var i = 0; i < 3; i++) {
+            drawline(canvas, context);
+        }
+
+        // 画30个随机点
+        for (var i = 0; i < 30; i++) {
+            drawDot(canvas, context);
+        }
+        convertCanvasToImage(canvas)
+    }
+
+    // 随机线
+    function drawline(canvas, context) {
+        context.moveTo(Math.floor(Math.random() * canvas.width), Math.floor(Math.random() * canvas.height));             //随机线的起点x坐标是画布x坐标0位置，y坐标是画布高度的随机数
+        context.lineTo(Math.floor(Math.random() * canvas.width), Math.floor(Math.random() * canvas.height));  //随机线的终点x坐标是画布宽度，y坐标是画布高度的随机数
+        context.lineWidth = 0.5;                                                  //随机线宽
+        context.strokeStyle = 'rgba(50,50,50,0.3)';                               //随机线描边属性
+        context.stroke();                                                         //描边，即起点描到终点
+    }
+    // 随机点(所谓画点其实就是画1px像素的线，方法不再赘述)
+    function drawDot(canvas, context) {
+        var px = Math.floor(Math.random() * canvas.width);
+        var py = Math.floor(Math.random() * canvas.height);
+        context.moveTo(px, py);
+        context.lineTo(px + 1, py + 1);
+        context.lineWidth = 0.2;
+        context.stroke();
+
+    }
+    // 绘制图片
+    function convertCanvasToImage(canvas) {
+        document.getElementById("verifyCanvas").style.display = "none";
+        var image = document.getElementById("code_img");
+        image.src = canvas.toDataURL("image/png");
+        return image;
+    }
+
+    // 点击图片刷新
+    document.getElementById('code_img').onclick = function () {
+        $('#verifyCanvas').remove();
+        $('#verify').after('<canvas width="100" height="40" id="verifyCanvas"></canvas>')
+        drawCode();
+         a=array[0]+array[1]+array[2]+array[3]+array[4];
+        a=a.toLowerCase();
+        ///所有字符
+         ///alert(nums);
+	    //验证码
+	    //var code=rand[0]+rand[1]+rand[2]+rand[3]+rand[4];
+	    //转换为小写code.toLowerCase( )
+	    //alert(code.toUpperCase());
+	    //alert(document.getElementById("verify").value)
+     
+    }
+    
+
+</script>
+</html>

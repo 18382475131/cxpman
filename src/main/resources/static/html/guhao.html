@@ -1,0 +1,1235 @@
+<html>
+    <title>预约查询</title>
+    <head>
+            <meta charset="UTF-8">
+            <!-- 引入vue.js和elementUI框架 -->
+            <!-- 第三方引用 -->
+            <!-- 引入样式 -->
+            <link rel="stylesheet" href="https://unpkg.com/element-ui@2.6.3/lib/theme-chalk/index.css">
+            <script src="https://cdn.bootcss.com/vue/2.5.21/vue.min.js"></script>
+            <script src="https://cdn.bootcss.com/vue-resource/1.5.1/vue-resource.min.js"></script>
+            <script src="https://cdn.bootcss.com/element-ui/2.6.1/index.js"></script>  
+            <script src="../js/jquery-1.10.2.min.js"></script>  
+            <style type="text/css">
+                .help_1{
+                         background:rgb(245, 252, 252);
+                         width:1250px;
+                         height:60px;
+                         margin-left:auto;
+                         margin-right:auto;
+                   }
+                   .gh{
+                         background:rgb(34, 196, 236);
+                         width:1250px;
+                         height:30px;
+                         margin-left:auto;
+                         margin-right:auto; 
+                         
+                        padding-top:3px}
+                   
+                   .gh_1{
+                        background:rgb(34, 196, 236);
+                         width:1235px;
+                         height:480px;
+                         margin-left:auto;
+                         margin-right:auto;
+                         padding-top:2.5px;
+                         padding-left:5px;
+                         padding-right:10px;}
+                         #top{
+                            width:1255px;
+
+                         }
+                  
+                         
+              </style>
+    </head>
+    <body>
+        <div id="top">
+                <div class="help_1">
+                        <div style="margin-left:100px;float:left"><image src="../image/logo.jpg" style="height:60px" circle></image></div>
+                        <div style="margin-left:550px;line-height:60px"><a style="font-family:楷体;font-weight:bold;color:rgba(65, 110, 235, 0.993);font-size:35px">预约查询</a></div>
+                </div>
+               
+                        
+                       <div class="gh">
+                           
+                               <div style="float:left;margin-left:10px"> 
+                                <el-autocomplete
+                                style="width:250px;margin-left:70px"
+                                 placeholder="请输入医院"
+                                  v-model="yiyuan" 
+                                  class="input-with-select"
+                                   size="mini"
+                                   :fetch-suggestions="querySearch"
+                                   @select="handleSelect"
+                                   @focus="focus('a')"
+                                   clearable>
+                                 <template slot="prepend">医院</template>
+                                </el-autocompletet>
+                              </div>
+
+                           <div style="float:left;margin-left:10px">
+                                <el-autocomplete
+                                style="width:250px"
+                                 placeholder="请输入科室"
+                                  v-model="keshi" 
+                                  class="input-with-select"
+                                   size="mini"
+                                   :fetch-suggestions="querySearch"
+                                   @select="handleSelect"
+                                   @focus="focus('b')"
+                                   clearable>
+                                 <template slot="prepend">科室</template>
+                                </el-autocompletet>
+                           </div>
+
+                           <div style="float:left;margin-left:10px">
+                                <el-autocomplete
+                                style="width:250px"
+                                 placeholder="疾病类型"
+                                  v-model="jibing" 
+                                  class="input-with-select"
+                                   size="mini"
+                                   :fetch-suggestions="querySearch"
+                                   @select="handleSelect"
+                                   @focus="focus('c')"
+                                   clearable>
+                                  <template slot="prepend">疾病</template>
+                               </el-autocompletet>
+                           </div>
+
+
+                           <div style="float:left;margin-left:10px">
+                                <el-autocomplete
+                                style="width:250px"
+                                 placeholder="等级"
+                                  v-model="dengji" 
+                                  class="input-with-select"
+                                   size="mini"
+                                   :fetch-suggestions="querySearch"
+                                   @select="handleSelect"
+                                   @focus="focus('d')"
+                                   clearable>
+                                <template slot="prepend">等级</template>
+                              </el-autocompletet>
+                          </div>
+
+
+                           <div style="margin-left:10px;float:left;"><el-button type="primary" slot="append" style="width:50px" size="mini" round  @click="select()">查询</el-button>
+                          </div>
+                           
+                        
+                </div>
+                       <div class="gh_1">
+                           <div style="margin-left:10px;margin-right:10px">
+
+
+                        <el-table
+                           size="mini"
+                           cell-style="font-weight: 300;font-size:12;font-family:楷体"
+                           header-cell-style="font-weight: 600;font-size:14;font-family:楷体"
+                            ref="filterTable"
+                            :data="userList.slice((currentPage-1)*pagesize,currentPage*pagesize)"
+                            stripe="true"
+                            
+                            height="472px"
+                           
+                            >
+                            <el-table-column
+                            label="序号"
+                            align="center"
+                            type="index"
+                            width="60px">
+                            </el-table-column>
+
+                            <el-table-column
+                            align="center"
+                                prop="hos"
+                                label="医院"
+                                width="300"
+                                
+                                
+                               >
+    </el-table-column>
+    <el-table-column
+    align="center"
+      prop="grade"
+      label="等级"
+      width="80px">
+      <template slot-scope="scope">
+            <el-button
+              size="mini"
+              round
+              plain
+              type="info"
+              disabled
+              size="mini"
+              @click="">{{scope.row.grade}}</el-button>
+            
+          </template>
+    </el-table-column>
+    <el-table-column
+      prop="room"
+      align="center"
+      label="科室"
+      width="200">
+    </el-table-column>
+    <el-table-column
+      prop="hurt"
+      align="center"
+      label="疾病"
+      width="200">
+    </el-table-column>
+    <el-table-column
+    align="center"
+      label="医生">
+    <el-table-column
+      prop="doctor"
+      align="center"
+      label="医生"
+      width="120">
+      <template slot-scope="scope">
+            <el-tag size="mini">{{scope.row.doctor}}</el-tag>
+          </template>
+    </el-table-column>
+    <el-table-column
+      prop="code"
+      align="center"
+      label="医生代码"
+      width="120">
+      <template slot-scope="scope">
+            <el-tag size="mini">{{scope.row.code}}</el-tag>
+          </template>
+    </el-table-column>
+</el-table-column>
+<el-table-column 
+align="center"
+width="100"
+label="操作">
+        <template slot-scope="scope">
+          <el-button
+            size="mini"
+            type="primary"
+            @click="handleyuyue(scope.row)">预约</el-button>
+          
+        </template>
+      </el-table-column>
+    
+                            </el-table>
+                            </div>
+                       </div>
+                            <div>
+                                <div style="text-align: center">
+
+                                        <el-pagination
+                                        background
+                                              @size-change="handleSizeChange"
+                                              @current-change="handleCurrentChange"
+                                              :current-page="currentPage"
+                                              :page-sizes="[10,100, 200, 300, 400]"
+                                              :page-size="pagesize"
+                                              layout="total, sizes, prev, pager, next, jumper"
+                                              :total="userList.length">
+                                              </el-pagination>
+                                </div>
+                            </div>
+
+                            <div>
+                                    <el-dialog 
+                                    size="mini"
+                                    title="医生当前排班" 
+                                    :visible.sync="dialogTableVisible"
+                                    width="73.5%"
+                                    >
+                                            <el-table 
+                                            :data="gridData"
+                                            size="mini"
+                                            cell-style="font-weight: 300;font-size:12;font-family:楷体"
+                                            header-cell-style="font-weight: 600;font-size:14;font-family:楷体">
+
+                                              <el-table-column align="center" property="date" label="日期" width="150"></el-table-column>
+                                              <el-table-column align="center" property="Monday" label="星期一">
+                                                    <el-table-column
+                                                    prop="Morning_1"
+                                                    align="center"
+                                                    label="上午"
+                                                    width="50">
+                                                    <template slot-scope="scope">
+                                                        <sapn v-if="scope.row.Morning_1!=''">
+                                                            <el-tag size="mini" style="cursor:pointer;" @click="hao_1_1(scope.row)">{{scope.row.Morning_1}}</el-tag>
+                                                        </sapn>
+                                                          
+                                                        </template>
+                                                  </el-table-column>
+                                                  <el-table-column
+                                                    prop="Noon_1"
+                                                    align="center"
+                                                    label="中午"
+                                                    width="50">
+                                                    <template slot-scope="scope">
+                                                            <sapn v-if="scope.row.Noon_1!=''">
+                                                                    <el-tag size="mini"  style="cursor:pointer;" @click="hao_1_2(scope.row)">{{scope.row.Noon_1}}</el-tag>
+                                                                </sapn>
+                                                        </template>
+                                                  </el-table-column>
+                                                  <el-table-column
+                                                    prop="Night_1"
+                                                    align="center"
+                                                    label="晚上"
+                                                    width="50">
+                                                    <template slot-scope="scope">
+                                                            <sapn v-if="scope.row.Night_1!=''">
+                                                                    <el-tag size="mini" style="cursor:pointer;"  @click="hao_1_3(scope.row)">{{scope.row.Night_1}}</el-tag>
+                                                                </sapn>
+                                                        </template>
+                                                  </el-table-column>
+                                              </el-table-column>
+
+
+                                              <el-table-column align="center" property="Tuesday" label="星期二" width="200">
+                                                   <el-table-column
+                                                    prop="Morning_2"
+                                                    align="center"
+                                                    label="上午"
+                                                    width="50">
+                                                    <template slot-scope="scope">
+                                                            <sapn v-if="scope.row.Morning_2!=''">
+                                                                    <el-tag size="mini"  style="cursor:pointer;" @click="hao_2_1(scope.row)">{{scope.row.Morning_2}}</el-tag>
+                                                                </sapn>
+                                                        </template>
+                                                  </el-table-column>
+                                                  <el-table-column
+                                                    prop="Noon_2"
+                                                    align="center"
+                                                    label="中午"
+                                                    width="50">
+                                                    <template slot-scope="scope">
+                                                            <sapn v-if="scope.row.Noon_2!=''">
+                                                                    <el-tag size="mini"  style="cursor:pointer;" @click="hao_2_2(scope.row)">{{scope.row.Noon_2}}</el-tag>
+                                                                </sapn>
+                                                        </template>
+                                                  </el-table-column>
+                                                  <el-table-column
+                                                    prop="Night_2"
+                                                    align="center"
+                                                    label="晚上"
+                                                    width="50">
+                                                    <template slot-scope="scope">
+                                                            <sapn v-if="scope.row.Night_2!=''">
+                                                                    <el-tag size="mini" style="cursor:pointer;"  @click="hao_2_3(scope.row)">{{scope.row.Night_2}}</el-tag>
+                                                                </sapn>
+                                                        </template>
+                                                  </el-table-column>
+                                              </el-table-column>
+
+
+                                              <el-table-column align="center" property="Wednesday" label="星期三">
+                                                    <el-table-column
+                                                    prop="Morning_3"
+                                                    align="center"
+                                                    label="上午"
+                                                    width="50">
+                                                    <template slot-scope="scope">
+                                                            <sapn v-if="scope.row.Morning_3!=''">
+                                                                    <el-tag size="mini"  style="cursor:pointer;" @click="hao_3_1(scope.row)">{{scope.row.Morning_3}}</el-tag>
+                                                                </sapn>
+                                                        </template>
+                                                  </el-table-column>
+                                                  <el-table-column
+                                                    prop="Noon_3"
+                                                    align="center"
+                                                    label="中午"
+                                                    width="50">
+                                                    <template slot-scope="scope">
+                                                            <sapn v-if="scope.row.Noon_3!=''">
+                                                                    <el-tag size="mini" style="cursor:pointer;"  @click="hao_3_2(scope.row)">{{scope.row.Noon_3}}</el-tag>
+                                                                </sapn>
+                                                        </template>
+                                                  </el-table-column>
+                                                  <el-table-column
+                                                    prop="Night_3"
+                                                    align="center"
+                                                    label="晚上"
+                                                    width="50">
+                                                    <template slot-scope="scope">
+                                                            <sapn v-if="scope.row.Night_3!=''">
+                                                                    <el-tag size="mini" style="cursor:pointer;"  @click="hao_3_3(scope.row)">{{scope.row.Night_3}}</el-tag>
+                                                                </sapn>
+                                                        </template>
+                                                  </el-table-column>
+                                              </el-table-column>
+                                              
+                                              <el-table-column align="center" property="Thursday" label="星期四" width="150">
+                                                    <el-table-column
+                                                    prop="Morning_4"
+                                                    align="center"
+                                                    label="上午"
+                                                    width="50">
+                                                    <template slot-scope="scope">
+                                                            <sapn v-if="scope.row.Morning_4!=''">
+                                                                    <el-tag size="mini" style="cursor:pointer;"  @click="hao_4_1(scope.row)">{{scope.row.Morning_4}}</el-tag>
+                                                                </sapn>
+                                                        </template>
+                                                  </el-table-column>
+                                                  <el-table-column
+                                                    prop="Noon_4"
+                                                    align="center"
+                                                    label="中午"
+                                                    width="50">
+                                                    <template slot-scope="scope">
+                                                            <sapn v-if="scope.row.Noon_4!=''">
+                                                                    <el-tag size="mini"  style="cursor:pointer;" @click="hao_4_2(scope.row)">{{scope.row.Noon_4}}</el-tag>
+                                                                </sapn>
+                                                        </template>
+                                                  </el-table-column>
+                                                  <el-table-column
+                                                    prop="Night_4"
+                                                    align="center"
+                                                    label="晚上"
+                                                    width="50">
+                                                    <template slot-scope="scope">
+                                                            <sapn v-if="scope.row.Night_4!=''">
+                                                                    <el-tag size="mini"  style="cursor:pointer;" @click="hao_4_3(scope.row)">{{scope.row.Night_4}}</el-tag>
+                                                                </sapn>
+                                                        </template>
+                                                  </el-table-column>
+                                              </el-table-column>
+                                              <el-table-column align="center" property="Friday" label="星期五" width="200">
+                                                    <el-table-column
+                                                    prop="Morning_5"
+                                                    align="center"
+                                                    label="上午"
+                                                    width="50">
+                                                    <template slot-scope="scope">
+                                                            <sapn v-if="scope.row.Morning_5!=''">
+                                                                    <el-tag size="mini" style="cursor:pointer;"  @click="hao_5_1(scope.row)">{{scope.row.Morning_5}}</el-tag>
+                                                                </sapn>
+                                                        </template>
+                                                  </el-table-column>
+                                                  <el-table-column
+                                                    prop="Noon_5"
+                                                    align="center"
+                                                    label="中午"
+                                                    width="50">
+                                                    <template slot-scope="scope">
+                                                            <sapn v-if="scope.row.Noon_5!=''">
+                                                                    <el-tag size="mini" style="cursor:pointer;"  @click="hao_5_2(scope.row)">{{scope.row.Noon_5}}</el-tag>
+                                                                </sapn>
+                                                        </template>
+                                                  </el-table-column>
+                                                  <el-table-column
+                                                    prop="Night_5"
+                                                    align="center"
+                                                    label="晚上"
+                                                    width="50">
+                                                    <template slot-scope="scope">
+                                                            <sapn v-if="scope.row.Night_5!=''">
+                                                                    <el-tag size="mini"  style="cursor:pointer;" @click="hao_5_3(scope.row)">{{scope.row.Night_5}}</el-tag>
+                                                                </sapn>
+                                                        </template>
+                                                  </el-table-column>
+                                              </el-table-column>
+                                              
+                                            </el-table>
+
+                                            <el-dialog
+                                                 width="30%"
+                                                 title="预约信息"
+                                                 :visible.sync="innerVisible"
+                                                 append-to-body>
+                                                 <el-form
+                                                 ref="form" 
+                                                 :model="form"
+                                                 label-width="80px"
+                                                 size="mini">
+                                                        <el-form-item label="医院">
+                                                                <el-input v-model="form.hos"></el-input>
+                                                        </el-form-item>
+                                                        <el-form-item label="科室">
+                                                                <el-input v-model="form.room"></el-input>
+                                                        </el-form-item>
+                                                        <el-form-item label="医生">
+                                                                <el-input v-model="form.doctor"></el-input>
+                                                        </el-form-item>
+                                                        <el-form-item label="代码">
+                                                                <el-input v-model="form.code"></el-input>
+                                                        </el-form-item>
+                                                        <el-form-item label="日期">
+                                                                <el-input v-model="form.date"></el-input>
+                                                        </el-form-item>
+                                                        <el-form-item label="时间">
+                                                                <el-input v-model="form.time"></el-input>
+                                                        </el-form-item>
+                                                 </el-form>
+                                                 <span slot="footer" class="dialog-footer">
+                                                        <el-button size="mini" @click="innerVisible = false">取 消</el-button>
+                                                        <el-button size="mini" type="primary" @click="innerVisible = false">确 定</el-button>
+                                                 </span>
+                                          </el-dialog>
+                                          </el-dialog>
+                               
+
+                                </div>
+  </div>
+                       
+                  
+        
+    </body>
+<script type="text/javascript">
+ m="x";
+//1、只选择医院
+var  tableData=[
+
+        { hos: '四川省骨科医院',
+          room: '脊柱科',
+          hurt: '骨折',
+          doctor:'周川',
+          code:'CDUtcm',
+          grade:'二甲'
+        }, 
+        { hos: '四川省骨科医院',
+          room: '脊柱科',
+          hurt: '骨折',
+          doctor:'周川',
+          code:'CDUtcm',
+          grade:'二甲'
+        },
+        { hos: '四川省骨科医院',
+          room: '脊柱科',
+          hurt: '骨折',
+          doctor:'周川',
+          code:'CDUtcm',
+          grade:'二甲'
+        },
+        { hos: '四川省骨科医院',
+          room: '脊柱科',
+          hurt: '骨折',
+          doctor:'周川',
+          code:'CDUtcm',
+          grade:'二甲'
+        },
+        { hos: '四川省骨科医院',
+          room: '脊柱科',
+          hurt: '骨折',
+          doctor:'周川',
+          code:'CDUtcm',
+          grade:'二甲'
+        },
+        { hos: '四川省骨科医院',
+          room: '脊柱科',
+          hurt: '骨折',
+          doctor:'周川',
+          code:'CDUtcm',
+          grade:'二甲'
+        },
+        { hos: '四川省骨科医院',
+          room: '脊柱科',
+          hurt: '骨折',
+          doctor:'周川',
+          code:'CDUtcm',
+          grade:'二甲'
+        },
+        { hos: '四川省骨科医院',
+          room: '脊柱科',
+          hurt: '骨折',
+          doctor:'周川',
+          code:'CDUtcm',
+          grade:'二甲'
+        },
+        { hos: '四川省骨科医院',
+          room: '脊柱科',
+          hurt: '骨折',
+          doctor:'周川',
+          code:'CDUtcm',
+          grade:'二甲'
+        },
+        { hos: '四川省骨科医院',
+          room: '脊柱科',
+          hurt: '骨折',
+          doctor:'周川',
+          code:'CDUtcm',
+          grade:'二甲'
+        },
+        { hos: '四川省骨科医院',
+          room: '脊柱科',
+          hurt: '骨折',
+          doctor:'周川',
+          code:'CDUtcm',
+          grade:'二甲'
+        },
+        { hos: '四川省骨科医院',
+          room: '脊柱科',
+          hurt: '骨折',
+          doctor:'周川',
+          code:'CDUtcm',
+          grade:'二甲'
+        },
+        { hos: '四川省骨科医院',
+          room: '脊柱科',
+          hurt: '骨折',
+          doctor:'周川',
+          code:'CDUtcm',
+          grade:'二甲'
+        },
+        { hos: '四川省骨科医院',
+          room: '脊柱科',
+          hurt: '骨折',
+          doctor:'周川',
+          code:'CDUtcm',
+          grade:'二甲'
+        },
+        { hos: '四川省骨科医院',
+          room: '脊柱科',
+          hurt: '骨折',
+          doctor:'周川',
+          code:'CDUtcm',
+          grade:'二甲'
+        },
+        { hos: '四川省骨科医院',
+          room: '脊柱科',
+          hurt: '骨折',
+          doctor:'周川',
+          code:'CDUtcm',
+          grade:'二甲'
+        },
+        { hos: '四川省骨科医院',
+          room: '脊柱科',
+          hurt: '骨折',
+          doctor:'周川',
+          code:'CDUtcm',
+          grade:'二甲'
+        },
+        { hos: '四川省骨科医院',
+          room: '脊柱科',
+          hurt: '骨折',
+          doctor:'周川',
+          code:'CDUtcm',
+          grade:'二甲'
+        },
+        { hos: '四川省骨科医院',
+          room: '脊柱科',
+          hurt: '骨折',
+          doctor:'周川',
+          code:'CDUtcm',
+          grade:'二甲'
+        },
+        { hos: '四川省骨科医院',
+          room: '脊柱科',
+          hurt: '骨折',
+          doctor:'周川',
+          code:'CDUtcm',
+          grade:'一甲'
+        },
+
+            ];
+   var app=new Vue({
+       el:'#top',
+       data(){
+        
+        return{
+            form:{
+                hos:'',
+                room:'',
+                doctor:'',
+                code:'',
+                date:'',
+                time:'',
+            },
+            innerVisible:false,
+            gridData:[
+            {
+            date:'2019-04-01',   
+            Morning_1:'有号',
+            Noon_1:'无号',
+            Night_1:'有号',
+
+            
+            Morning_2:'',
+            Noon_2:'',
+            Night_2:'',
+
+           
+            Morning_3:'',
+            Noon_3:'',
+            Night_3:'',
+
+            
+            Morning_4:'',
+            Noon_4:'',
+            Night_4:'',
+
+            
+            Morning_5:'',
+            Noon_5:'',
+            Night_5:'',},
+            {
+            date:'2019-04-02',   
+            Morning_1:'',
+            Noon_1:'',
+            Night_1:'',
+
+            
+            Morning_2:'有号',
+            Noon_2:'无号',
+            Night_2:'有号',
+
+           
+            Morning_3:'',
+            Noon_3:'',
+            Night_3:'',
+
+            
+            Morning_4:'',
+            Noon_4:'',
+            Night_4:'',
+
+            
+            Morning_5:'',
+            Noon_5:'',
+            Night_5:'',},
+            {
+            date:'2019-04-03',   
+            Morning_1:'',
+            Noon_1:'',
+            Night_1:'',
+
+            
+            Morning_2:'',
+            Noon_2:'',
+            Night_2:'',
+
+           
+            Morning_3:'有号',
+            Noon_3:'有号',
+            Night_3:'有号',
+
+            
+            Morning_4:'',
+            Noon_4:'',
+            Night_4:'',
+
+            
+            Morning_5:'',
+            Noon_5:'',
+            Night_5:'',},
+            {
+            date:'2019-04-04',   
+            Morning_1:'',
+            Noon_1:'',
+            Night_1:'',
+
+            
+            Morning_2:'',
+            Noon_2:'',
+            Night_2:'',
+
+           
+            Morning_3:'',
+            Noon_3:'',
+            Night_3:'',
+
+            
+            Morning_4:'无号',
+            Noon_4:'无号',
+            Night_4:'无号',
+
+            
+            Morning_5:'',
+            Noon_5:'',
+            Night_5:'',},
+            {
+            date:'2019-04-05',   
+            Morning_1:'',
+            Noon_1:'',
+            Night_1:'',
+
+            
+            Morning_2:'',
+            Noon_2:'',
+            Night_2:'',
+
+           
+            Morning_3:'',
+            Noon_3:'',
+            Night_3:'',
+
+            
+            Morning_4:'',
+            Noon_4:'',
+            Night_4:'',
+
+            
+            Morning_5:'有号',
+            Noon_5:'无号',
+            Night_5:'有号',},
+
+            ],
+            dialogTableVisible:false,
+            yiyuan:'',
+            keshi:'',
+            jibing:'',
+            dengji:'',
+            input:'',
+            pagesize:'10',  //显示当前页条数
+            userList:[],   //空数组，后期赋值
+            total:400,    //总共有多少条数目
+            currentPage: 1,   //当前页显示第几页
+           
+
+        }
+       },
+       methods:{
+           hao_1_1(row){
+            //alert(row.date);
+            //alert(row.Morning_1);
+            if(row.Morning_1=="有号")
+            {
+               
+                this.innerVisible=true;
+                this.form.hos=message_hos;
+                this.form.room=message_room;
+                this.form.doctor=message_doctor;
+                this.form.code=message_code;
+                this.form.date=row.date+"  星期一";
+                this.form.time="上午";
+               
+                
+            }
+            else if(row.Morning_1=="无号")
+            {
+                this.$message({
+                   message: '当前无号',
+                   type: 'warning'
+                                });
+            }
+           },
+           hao_1_2(row){
+            if(row.Noon_1=="有号")
+            {
+                this.innerVisible=true;
+                this.form.hos=message_hos;
+                this.form.room=message_room;
+                this.form.doctor=message_doctor;
+                this.form.code=message_code;
+                this.form.date=row.date+"  星期一";
+                this.form.time="下午";
+            }
+            else if(row.Noon_1=="无号")
+            {
+                this.$message({
+                   message: '当前无号',
+                   type: 'warning'
+                                });
+            }
+           },
+           hao_1_3(row){
+            if(row.Night_1=="有号")
+            {
+                this.innerVisible=true;
+                this.form.hos=message_hos;
+                this.form.room=message_room;
+                this.form.doctor=message_doctor;
+                this.form.code=message_code;
+                this.form.date=row.date+"  星期一";
+                this.form.time="晚上";
+            }
+            else if(row.Night_1=="无号")
+            {
+                this.$message({
+                   message: '当前无号',
+                   type: 'warning'
+                                });
+            }
+           },
+
+           hao_2_1(row){
+            //alert(row.date);
+            //alert(row.Morning_1);
+            if(row.Morning_2=="有号")
+            {
+                this.innerVisible=true;
+                this.form.hos=message_hos;
+                this.form.room=message_room;
+                this.form.doctor=message_doctor;
+                this.form.code=message_code;
+                this.form.date=row.date+"  星期二";
+                this.form.time="上午";
+            }
+            else if(row.Morning_2=="无号")
+            {
+                this.$message({
+                   message: '当前无号',
+                   type: 'warning'
+                                });
+            }
+           },
+           hao_2_2(row){
+            if(row.Noon_2=="有号")
+            {
+                this.innerVisible=true;
+                this.form.hos=message_hos;
+                this.form.room=message_room;
+                this.form.doctor=message_doctor;
+                this.form.code=message_code;
+                this.form.date=row.date+"  星期二";
+                this.form.time="下午";
+            }
+            else if(row.Noon_2=="无号")
+            {
+                this.$message({
+                   message: '当前无号',
+                   type: 'warning'
+                                });
+            }
+           },
+           hao_2_3(row){
+            if(row.Night_2=="有号")
+            {
+                this.innerVisible=true;
+                this.form.hos=message_hos;
+                this.form.room=message_room;
+                this.form.doctor=message_doctor;
+                this.form.code=message_code;
+                this.form.date=row.date+"  星期二";
+                this.form.time="晚上";
+            }
+            else if(row.Night_2=="无号")
+            {
+                this.$message({
+                   message: '当前无号',
+                   type: 'warning'
+                                });
+            }
+           },
+           hao_3_1(row){
+            //alert(row.date);
+            //alert(row.Morning_1);
+            if(row.Morning_3=="有号")
+            {
+                this.innerVisible=true;
+                this.form.hos=message_hos;
+                this.form.room=message_room;
+                this.form.doctor=message_doctor;
+                this.form.code=message_code;
+                this.form.date=row.date+"  星期三";
+                this.form.time="上午";
+            }
+            else if(row.Morning_3=="无号")
+            {
+                this.$message({
+                   message: '当前无号',
+                   type: 'warning'
+                                });
+            }
+           },
+           hao_3_2(row){
+            if(row.Noon_3=="有号")
+            {
+                this.innerVisible=true;
+                this.form.hos=message_hos;
+                this.form.room=message_room;
+                this.form.doctor=message_doctor;
+                this.form.code=message_code;
+                this.form.date=row.date+"  星期三";
+                this.form.time="下午";
+            }
+            else if(row.Noon_3=="无号")
+            {
+                this.$message({
+                   message: '当前无号',
+                   type: 'warning'
+                                });
+            }
+           },
+           hao_3_3(row){
+            if(row.Night_3=="有号")
+            {
+                this.innerVisible=true;
+                this.form.hos=message_hos;
+                this.form.room=message_room;
+                this.form.doctor=message_doctor;
+                this.form.code=message_code;
+                this.form.date=row.date+"  星期三";
+                this.form.time="晚上";
+            }
+            else if(row.Night_3=="无号")
+            {
+                this.$message({
+                   message: '当前无号',
+                   type: 'warning'
+                                });
+            }
+           },
+           hao_4_1(row){
+            //alert(row.date);
+            //alert(row.Morning_1);
+            if(row.Morning_4=="有号")
+            {
+                this.innerVisible=true;
+                this.form.hos=message_hos;
+                this.form.room=message_room;
+                this.form.doctor=message_doctor;
+                this.form.code=message_code;
+                this.form.date=row.date+"  星期四";
+                this.form.time="上午";
+            }
+            else if(row.Morning_4=="无号")
+            {
+                this.$message({
+                   message: '当前无号',
+                   type: 'warning'
+                                });
+            }
+           },
+           hao_4_2(row){
+            if(row.Noon_4=="有号")
+            {
+                this.innerVisible=true;
+                this.form.hos=message_hos;
+                this.form.room=message_room;
+                this.form.doctor=message_doctor;
+                this.form.code=message_code;
+                this.form.date=row.date+"  星期四";
+                this.form.time="下午";
+            }
+            else if(row.Noon_4=="无号")
+            {
+                this.$message({
+                   message: '当前无号',
+                   type: 'warning'
+                                });
+            }
+           },
+           hao_4_3(row){
+            if(row.Night_4=="有号")
+            {
+                this.innerVisible=true;
+                this.form.hos=message_hos;
+                this.form.room=message_room;
+                this.form.doctor=message_doctor;
+                this.form.code=message_code;
+                this.form.date=row.date+"  星期四";
+                this.form.time="晚上";
+            }
+            else if(row.Night_4=="无号")
+            {
+                this.$message({
+                   message: '当前无号',
+                   type: 'warning'
+                                });
+            }
+           },
+           hao_5_1(row){
+            //alert(row.date);
+            //alert(row.Morning_1);
+            if(row.Morning_5=="有号")
+            {
+                this.innerVisible=true;
+                this.form.hos=message_hos;
+                this.form.room=message_room;
+                this.form.doctor=message_doctor;
+                this.form.code=message_code;
+                this.form.date=row.date+"  星期五";
+                this.form.time="上午";
+            }
+            else if(row.Morning_5=="无号")
+            {
+                this.$message({
+                   message: '当前无号',
+                   type: 'warning'
+                                });
+            }
+           },
+           hao_5_2(row){
+            if(row.Noon_5=="有号")
+            {
+                this.innerVisible=true;
+                this.form.hos=message_hos;
+                this.form.room=message_room;
+                this.form.doctor=message_doctor;
+                this.form.code=message_code;
+                this.form.date=row.date+"  星期五";
+                this.form.time="下午";
+            }
+            else if(row.Noon_5=="无号")
+            {
+                this.$message({
+                   message: '当前无号',
+                   type: 'warning'
+                                });
+            }
+           },
+           hao_5_3(row){
+            if(row.Night_5=="有号")
+            {
+                this.innerVisible=true;
+                this.form.hos=message_hos;
+                this.form.room=message_room;
+                this.form.doctor=message_doctor;
+                this.form.code=message_code;
+                this.form.date=row.date+"  星期五";
+                this.form.time="晚上";
+            }
+            else if(row.Night_5=="无号")
+            {
+                this.$message({
+                   message: '当前无号',
+                   type: 'warning'
+                                });
+            }
+           },
+
+           ///预约按键
+           handleyuyue(row){
+                //alert(row.$index)
+                this.dialogTableVisible=true;
+                message_hos=row.hos;
+                message_room=row.room;
+                message_doctor=row.doctor;
+                message_code=row.code;
+                //alert(message_code);
+
+           },
+           //获取焦点事件
+        focus(key){
+            
+            m=key;
+            if(m=="a")
+            {this.restaurants = this.loadAll_1();}
+            else if(m=="b")
+            {this.restaurants = this.loadAll_2();}
+            else if(m=="c")
+            {this.restaurants = this.loadAll_3();}
+            else if(m=="d")
+            {this.restaurants = this.loadAll_4();}
+            //alert(m);
+        },
+           select()
+           {
+               alert("1");
+           },
+        createFilter(queryString) {
+        return (restaurant) => {
+          return (restaurant.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
+        };
+      },
+        querySearch(queryString, cb) {
+        var restaurants = this.restaurants;
+        var results = queryString ? restaurants.filter(this.createFilter(queryString)) : restaurants;
+        // 调用 callback 返回建议列表的数据
+        cb(results);
+      },
+      loadAll_1() {
+          
+         
+        return [
+          { "value": "四川大学华西医院" },
+          { "value": "四川大学华西第二医院" },
+          { "value": "四川大学华西第四医院"},
+          { "value": "四川大学华西口腔医院" },
+          { "value": "成都中医药大学附属医院" },
+          { "value": "成都大学附属医院" },
+          { "value": "成都医学院第一附属医院" },
+          { "value": "四川省人民医院" },
+          { "value": "四川省第二人民医院"},
+          { "value": "四川省妇幼保健院" },
+          { "value": "成都市第一人民医院"},
+          { "value": "成都市第二人民医院" },
+          { "value": "成都市第三人民医院" },
+          { "value": "成都市第五人民医院"},
+          { "value": "四川省骨科医院" },
+          { "value": "成都妇女儿童中心医"},
+          { "value": "解放军成都军区总医院" },
+          { "value": "解放军452医院"},];
+      
+    },
+    loadAll_2() {
+          
+         
+          return [
+            { "value": "脊柱科" },
+           ];
+        
+      },
+    loadAll_3() {
+          
+         
+          return [
+            { "value": "腰椎病" },
+           ];
+        
+      },
+      loadAll_4() {
+          
+         
+          return [
+            { "value": "三甲" },
+            { "value": "二甲" },
+            { "value": "一甲" },
+           ];
+        
+      },
+      handleSelect(item) {
+        console.log(item);
+      },
+        
+           ///分页
+           //size-change pageSize 改变时会触发
+        handleSizeChange(val) {
+        //console.log(`每页 ${val} 条`);
+        this.pagesize=val;
+      },
+      //current-change  currentPage 改变时会触发
+      handleCurrentChange(val) {
+        //console.log(`当前页: ${val}`);
+        this.currentPage=val;
+      },
+      ///获取数据函数
+      handleUserList() {
+            
+       
+                        
+      $.ajax({
+         url:`/guhao_1/info`,
+         
+         method:'POST',
+         success:(data) => {
+           //后台传过来的是字符串，需要将字符串转换成对象
+           data = JSON.parse(data);
+           console.log(data.yuyue);
+           console.log("1");
+           this.userList = data.yuyue;
+         },
+       error:(e) => {
+           console.log(e);
+        }
+      })
+      
+         
+        },
+         
+       },
+       created: function(){
+        this.handleUserList();
+       },
+       mounted() {
+         //  alert(m);
+// if(m=="a")
+//      {this.restaurants = this.loadAll_1();} 
+// else if(m=="a")
+//      {this.restaurants = this.loadAll_2();} 
+// else if(m=="a")
+//      {this.restaurants = this.loadAll_3();} 
+// else if(m=="a")
+    // {
+        
+     //   } 
+
+    }
+   });
+   
+ 
+</script>
+
+    </html>
