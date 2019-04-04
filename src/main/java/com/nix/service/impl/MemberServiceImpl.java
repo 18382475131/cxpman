@@ -2,6 +2,7 @@ package com.nix.service.impl;
 
 import com.nix.Exception.WebException;
 import com.nix.common.cache.MemberCache;
+import com.nix.jpa.BaseJpa;
 import com.nix.jpa.MemberJpa;
 import com.nix.model.MemberBaseModel;
 import com.nix.service.MemberService;
@@ -56,7 +57,7 @@ public class MemberServiceImpl extends BaseServiceImpl<MemberBaseModel,Integer> 
     }
 
     @Override
-    protected JpaRepository<MemberBaseModel,Integer> jpa() {
+    protected BaseJpa<MemberBaseModel,Integer> jpa() {
         return memberJpa;
     }
 }

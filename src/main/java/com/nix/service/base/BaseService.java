@@ -69,10 +69,6 @@ public interface BaseService<M extends Object,ID extends Serializable>{
      * @param conditionsSql 查找列表时的sql条件  sql语=语句里where后面的部分都写在改字符串里
      * @return 返回符合条件的对象列表 但查找失败时返回null
      * */
-     List<M> list(String tables,Integer page,Integer size,String order,String sort,String conditionsSql);
      List<M> list(Integer page,Integer size,String order,String sort,String conditionsSql);
 
-     List<M> select(String conditionsSql,Object ... param) ;
-
-     List<M> select(boolean b,String tables,String conditionsSql,Object ... param);
 }

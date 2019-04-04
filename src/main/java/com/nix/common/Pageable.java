@@ -19,7 +19,6 @@ public class Pageable<M extends Object> {
     private String sort;
     private String field;
     private String value;
-    private String tables;
     private String conditionsSql;
     private BaseService baseService;
     private List list;
@@ -82,22 +81,15 @@ public class Pageable<M extends Object> {
         this.value = value;
     }
 
-    public String getTables() {
-        return tables;
-    }
-
-    public void setTables(String tables) {
-        this.tables = tables;
-    }
 
     public List<M> getList(BaseService service) {
         baseService = service;
-        list = service.list(tables,page,limit,order,sort,conditionsSql);
+        list = service.list(page,limit,order,sort,conditionsSql);
         return list;
     }
 
     public Integer getCount() {
-        return baseService.list(tables,null,null,null,null,conditionsSql).size();
+        return baseService.list(null,null,null,null,conditionsSql).size();
     }
 
 }

@@ -1,7 +1,10 @@
 package com.nix.service.base;
 
+import com.nix.jpa.BaseJpa;
+import org.springframework.data.domain.Example;
 import org.springframework.data.jpa.repository.JpaRepository;
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -9,7 +12,7 @@ import java.util.List;
  */
 public abstract class BaseServiceImpl<M extends Object,ID extends Serializable> implements BaseService<M,ID>{
 
-    protected abstract JpaRepository<M,ID> jpa();
+    protected abstract BaseJpa<M,ID> jpa();
 
     @Override
     public void save(M o) {
@@ -28,7 +31,6 @@ public abstract class BaseServiceImpl<M extends Object,ID extends Serializable> 
 
     @Override
     public M findById(ID id) {
-//        return jpa().findOne();
         return jpa().getOne(id);
     }
 
@@ -56,26 +58,12 @@ public abstract class BaseServiceImpl<M extends Object,ID extends Serializable> 
 
     @Override
     public List<M> findByOneField(String field, String content) {
-        return jpa().findAll();
+        return jpa().findByOneField(field,content);
     }
 
-    @Override
-    public List<M> list(String tables, Integer page, Integer size, String order, String sort, String conditionsSql) {
-        return null;
-    }
 
     @Override
     public List<M> list(Integer page, Integer size, String order, String sort, String conditionsSql) {
-        return null;
-    }
-
-    @Override
-    public List<M> select(String conditionsSql, Object... param) {
-        return null;
-    }
-
-    @Override
-    public List<M> select(boolean b, String tables, String conditionsSql, Object... param) {
-        return null;
+        return jpa().list(page, size, order, sort, conditionsSql);
     }
 }

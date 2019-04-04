@@ -8,7 +8,7 @@ import org.springframework.data.repository.query.Param;
 /**
  * @author 11723
  */
-public interface MemberJpa extends JpaRepository<MemberBaseModel, Integer> {
+public interface MemberJpa extends BaseJpa<MemberBaseModel, Integer> {
 //    /**
 //     * 用户登录
 //     * @param username

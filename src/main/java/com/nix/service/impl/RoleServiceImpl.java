@@ -1,5 +1,6 @@
 package com.nix.service.impl;
 
+import com.nix.jpa.BaseJpa;
 import com.nix.jpa.RoleJpa;
 import com.nix.model.RoleBaseModel;
 import com.nix.model.RoleInterfaceModel;
@@ -84,7 +85,7 @@ public class RoleServiceImpl extends BaseServiceImpl<RoleBaseModel,Integer> impl
     }
 
     @Override
-    protected JpaRepository<RoleBaseModel,Integer> jpa() {
+    protected BaseJpa<RoleBaseModel,Integer> jpa() {
         return roleJpa;
     }
 }
